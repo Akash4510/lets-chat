@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import './index.css';
 
 // contexts
 import SettingsProvider from './contexts/SettingsContext';

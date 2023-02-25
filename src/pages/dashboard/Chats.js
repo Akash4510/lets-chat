@@ -103,7 +103,16 @@ const ChatEelement = ({ name, img, msg, time, unread, online }) => {
 
           <Stack spacing={0.3}>
             <Typography variant="subtitle2">{name}</Typography>
-            <Typography variant="captoin" sx={{ fontSize: '0.8rem' }}>
+            <Typography
+              variant="captoin"
+              sx={{
+                fontSize: '0.8rem',
+                display: '-webkit-box',
+                WebkitBoxOrient: 'vertical',
+                WebkitLineClamp: 1,
+                overflow: 'hidden',
+              }}
+            >
               {msg}
             </Typography>
           </Stack>
@@ -171,29 +180,30 @@ const Chats = () => {
           <Divider />
         </Stack>
 
-        <Stack sx={{ flexGrow: 1, overflow: 'scroll', height: '100%' }}>
-          <SimpleBarStyle>
-            <Stack spacing={2}>
-              <Typography variant="subtitle2" sx={{ color: '#676767' }}>
-                Pinned
-              </Typography>
-              {ChatList.filter((item) => item.pinned).map((item) => (
-                <ChatEelement {...item} key={item.id} />
-              ))}
-            </Stack>
+        <Stack
+          className="no-scrollbar"
+          sx={{ flexGrow: 1, overflow: 'scroll', height: '100%' }}
+        >
+          <Stack spacing={2}>
+            <Typography variant="subtitle2" sx={{ color: '#676767' }}>
+              Pinned
+            </Typography>
+            {ChatList.filter((item) => item.pinned).map((item) => (
+              <ChatEelement {...item} key={item.id} />
+            ))}
+          </Stack>
 
-            <Stack spacing={2.4}>
-              <Typography
-                variant="subtitle2"
-                sx={{ color: '#676767', marginTop: 2 }}
-              >
-                All Chats
-              </Typography>
-              {ChatList.filter((item) => !item.pinned).map((item) => (
-                <ChatEelement {...item} key={item.id} />
-              ))}
-            </Stack>
-          </SimpleBarStyle>
+          <Stack spacing={2.4}>
+            <Typography
+              variant="subtitle2"
+              sx={{ color: '#676767', marginTop: 2 }}
+            >
+              All Chats
+            </Typography>
+            {ChatList.filter((item) => !item.pinned).map((item) => (
+              <ChatEelement {...item} key={item.id} />
+            ))}
+          </Stack>
         </Stack>
       </Stack>
     </Box>
