@@ -143,7 +143,7 @@ const Chats = () => {
         height: '100vh',
         backgroundColor:
           theme.palette.mode === 'light'
-            ? '#F8FAFF'
+            ? '#f1f5ff'
             : theme.palette.background.paper,
         boxShadow: '0 0 2px rgba(0, 0, 0, 0.25)',
       }}
