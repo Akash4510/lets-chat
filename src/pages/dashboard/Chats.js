@@ -12,7 +12,6 @@ import {
 } from '@mui/material';
 import { styled, alpha, useTheme } from '@mui/material/styles';
 import { ArchiveBox, CircleDashed, MagnifyingGlass } from 'phosphor-react';
-import { SimpleBarStyle } from '../../components/Scrollbar';
 import { ChatList } from '../../data';
 
 const Search = styled('div')(({ theme }) => ({
