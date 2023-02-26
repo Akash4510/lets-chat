@@ -20,7 +20,7 @@ const LinkMsg = ({ item }) => {
         }}
       >
         <Stack
-          spacing={2}
+          spacing={1.5}
           alignItems="left"
           sx={{
             backgroundColor:
@@ -36,7 +36,7 @@ const LinkMsg = ({ item }) => {
             style={{ maxHeight: 210, borderRadius: '10px' }}
           />
 
-          <Stack spacing={1}>
+          <Stack spacing="4px">
             <Typography variant="subtitle2">Creating chat app</Typography>
             <Typography
               variant="subtitle2"

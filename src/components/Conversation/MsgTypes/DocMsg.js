@@ -20,7 +20,7 @@ const DocMsg = ({ item }) => {
           width: 'max-content',
         }}
       >
-        <Stack spacing={2}>
+        <Stack spacing={1.5}>
           <Stack
             p={1.5}
             direction="row"

@@ -8,7 +8,6 @@ const ReplyMsg = ({ item }) => {
   return (
     <Stack direction="row" justifyContent={item.incoming ? 'start' : 'end'}>
       <Box
-        p={1.5}
         sx={{
           backgroundColor: item.incoming
             ? theme.palette.mode === 'light'
@@ -17,6 +16,7 @@ const ReplyMsg = ({ item }) => {
             : theme.palette.primary.main,
           borderRadius: 1.5,
           width: 'max-content',
+          padding: '8px 8px 12px 8px',
         }}
       >
         <Stack spacing={1}>
@@ -41,6 +41,7 @@ const ReplyMsg = ({ item }) => {
             variant="body2"
             fontWeight={500}
             color={item.incoming ? theme.palette.text.primary : '#fff'}
+            sx={{ padding: '0 6px' }}
           >
             {item.reply}
           </Typography>
