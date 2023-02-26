@@ -32,7 +32,7 @@ const Footer = () => {
       }}
       p={2}
     >
-      <Stack direction="row" alignItems="center" spacing={3}>
+      <Stack direction="row" alignItems="center" spacing={1.5}>
         <StyledInput
           fullWidth
           placeholder="Write a message..."
