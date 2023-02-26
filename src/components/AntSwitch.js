@@ -11,25 +11,25 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
       width: 15,
     },
     '& .MuiSwitch-switchBase.Mui-checked': {
-      transform: 'translateX(9px)',
+      transform: 'translateX(22px)',
     },
   },
   '& .MuiSwitch-switchBase': {
     padding: 2,
     '&.Mui-checked': {
-      transform: 'translateX(20px)',
+      transform: 'translateX(22px)',
       color: '#fff',
       '& + .MuiSwitch-track': {
         opacity: 1,
-        backgroundColor: theme.palette.primary.main,
+        backgroundColor: theme.palette.mode === 'dark' ? '#177ddc' : '#1890ff',
       },
     },
   },
   '& .MuiSwitch-thumb': {
     boxShadow: '0 2px 4px 0 rgb(0 35 11 / 20%)',
-    width: 16,
-    height: 16,
-    borderRadius: 8,
+    width: 15,
+    height: 15,
+    borderRadius: 7.5,
     transition: theme.transitions.create(['width'], {
       duration: 200,
     }),
