@@ -17,7 +17,6 @@ import cssStyles from '../../../utils/cssStyles';
 import { NAVBAR, defaultSettings } from '../../../config';
 //
 import Iconify from '../../Iconify';
-import Scrollbar from '../../Scrollbar';
 //
 import ToggleButton from './ToggleButton';
 import SettingDirection from './SettingDirection';
