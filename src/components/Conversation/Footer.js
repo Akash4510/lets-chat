@@ -1,13 +1,59 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Stack,
   Box,
   TextField,
   IconButton,
   InputAdornment,
+  Fab,
+  Tooltip,
 } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
-import { LinkSimple, Smiley, PaperPlaneTilt } from 'phosphor-react';
+import {
+  LinkSimple,
+  Smiley,
+  PaperPlaneTilt,
+  Image,
+  Sticker,
+  Camera,
+  File,
+  User,
+} from 'phosphor-react';
+import data from '@emoji-mart/data';
+import Picker from '@emoji-mart/react';
+
+const Actions = [
+  {
+    color: '#4da5fe',
+    icon: <Image size={24} />,
+    y: 102,
+    title: 'Photo/Video',
+  },
+  {
+    color: '#1b8cfe',
+    icon: <Sticker size={24} />,
+    y: 172,
+    title: 'Stickers',
+  },
+  {
+    color: '#0172e4',
+    icon: <Camera size={24} />,
+    y: 242,
+    title: 'Image',
+  },
+  {
+    color: '#0159b2',
+    icon: <File size={24} />,
+    y: 312,
+    title: 'Document',
+  },
+  {
+    color: '#013f7f',
+    icon: <User size={24} />,
+    y: 382,
+    title: 'Contact',
+  },
+];
 
 const StyledInput = styled(TextField)(() => ({
   '& .MuiInputBase-input': {
@@ -16,8 +62,61 @@ const StyledInput = styled(TextField)(() => ({
   },
 }));
 
+const ChatInput = ({ setOpenEmojiPicker }) => {
+  const [openActions, setOpenActions] = useState(false);
+
+  return (
+    <StyledInput
+      fullWidth
+      placeholder="Write a message..."
+      variant="filled"
+      InputProps={{
+        disableUnderline: true,
+        startAdornment: (
+          <Stack sx={{ width: 'max-content' }}>
+            {openActions && (
+              <Stack sx={{ position: 'relative' }}>
+                {Actions.map((item) => (
+                  <Tooltip title={item.title} placement="right">
+                    <Fab
+                      sx={{
+                        position: 'absolute',
+                        top: -item.y,
+                        backgroundColor: item.color,
+                      }}
+                    >
+                      {item.icon}
+                    </Fab>
+                  </Tooltip>
+                ))}
+              </Stack>
+            )}
+            <InputAdornment>
+              <IconButton onClick={() => setOpenActions(!openActions)}>
+                <LinkSimple />
+              </IconButton>
+            </InputAdornment>
+          </Stack>
+        ),
+        endAdornment: (
+          <InputAdornment>
+            <IconButton
+              onClick={() => {
+                setOpenEmojiPicker((prev) => !prev);
+              }}
+            >
+              <Smiley />
+            </IconButton>
+          </InputAdornment>
+        ),
+      }}
+    />
+  );
+};
+
 const Footer = () => {
   const theme = useTheme();
+  const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
 
   return (
     <Box
@@ -33,28 +132,19 @@ const Footer = () => {
       p={2}
     >
       <Stack direction="row" alignItems="center" spacing={1.5}>
-        <StyledInput
-          fullWidth
-          placeholder="Write a message..."
-          variant="filled"
-          InputProps={{
-            disableUnderline: true,
-            startAdornment: (
-              <InputAdornment>
-                <IconButton>
-                  <LinkSimple />
-                </IconButton>
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment>
-                <IconButton>
-                  <Smiley />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
+        <Stack sx={{ width: '100%' }}>
+          <Box sx={{ position: 'fixed', zIndex: 10, bottom: 81, right: 70 }}>
+            {openEmojiPicker && (
+              <Picker
+                data={data}
+                theme={theme.palette.mode}
+                onEmojiSelect={console.log}
+              />
+            )}
+          </Box>
+
+          <ChatInput setOpenEmojiPicker={setOpenEmojiPicker} />
+        </Stack>
 
         <Box
           sx={{
