@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, Box, Typography, Link, IconButton } from '@mui/material';
+import { Stack, Box, Typography, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { DownloadSimple, Image } from 'phosphor-react';
 
