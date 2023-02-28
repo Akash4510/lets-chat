@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Stack, Box, Typography, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { DownloadSimple, Image } from 'phosphor-react';
+import MsgOptions from '../MsgOptions';
 
 const DocMsg = ({ item }) => {
   const theme = useTheme();
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <Stack direction="row" justifyContent={item.incoming ? 'start' : 'end'}>
+    <Stack
+      direction={item.incoming ? 'row' : 'row-reverse'}
+      justifyContent={item.incoming ? 'start' : 'end'}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      spacing={1}
+    >
       <Box
         p={1.5}
         sx={{
@@ -48,6 +56,7 @@ const DocMsg = ({ item }) => {
           </Typography>
         </Stack>
       </Box>
+      {isHovered && <MsgOptions incoming={item.incoming} />}
     </Stack>
   );
 };
