@@ -8,17 +8,21 @@ import './index.css';
 
 // contexts
 import SettingsProvider from './contexts/SettingsContext';
+import { Provider as ReduxProvider } from 'react-redux';
+import { store } from './redux/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
     <HelmetProvider>
-      <SettingsProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </SettingsProvider>
+      <ReduxProvider store={store}>
+        <SettingsProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </SettingsProvider>
+      </ReduxProvider>
     </HelmetProvider>
   </React.StrictMode>
 );

@@ -55,13 +55,15 @@ const LinkMsg = ({ item }) => {
               www.youtube.com
             </Typography>
           </Stack>
-          <Typography
-            variant="body2"
-            fontWeight={500}
-            color={item.incoming ? theme.palette.text : '#fff'}
-          >
-            {item.message}
-          </Typography>
+          {item.message && (
+            <Typography
+              variant="body2"
+              fontWeight={500}
+              color={item.incoming ? theme.palette.text : '#fff'}
+            >
+              {item.message}
+            </Typography>
+          )}
         </Stack>
       </Box>
       {isHovered && <MsgOptions incoming={item.incoming} />}
