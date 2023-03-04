@@ -18,7 +18,7 @@ const GeneralApp = () => {
         sx={{
           height: '100vh',
           minWidth: sideBar.open
-            ? 'calc(100vw - 720px)'
+            ? 'calc(100vw - 770px)'
             : 'calc(100vw - 420px)',
           backgroundColor:
             theme.palette.mode === 'light'
