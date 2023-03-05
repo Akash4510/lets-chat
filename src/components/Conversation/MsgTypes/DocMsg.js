@@ -4,7 +4,7 @@ import { useTheme } from '@mui/material/styles';
 import { DownloadSimple, Image } from 'phosphor-react';
 import MsgOptions from '../MsgOptions';
 
-const DocMsg = ({ item }) => {
+const DocMsg = ({ item, showOptions }) => {
   const theme = useTheme();
   const [isHovered, setIsHovered] = useState(false);
 
@@ -58,7 +58,7 @@ const DocMsg = ({ item }) => {
           )}
         </Stack>
       </Box>
-      {isHovered && <MsgOptions incoming={item.incoming} />}
+      {showOptions && isHovered && <MsgOptions incoming={item.incoming} />}
     </Stack>
   );
 };

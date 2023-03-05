@@ -3,7 +3,7 @@ import { Stack, Box, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import MsgOptions from '../MsgOptions';
 
-const MediaMsg = ({ item }) => {
+const MediaMsg = ({ item, showOptions }) => {
   const theme = useTheme();
   const [isHovered, setIsHovered] = useState(false);
 
@@ -48,7 +48,7 @@ const MediaMsg = ({ item }) => {
           )}
         </Stack>
       </Box>
-      {isHovered && <MsgOptions incoming={item.incoming} />}
+      {showOptions && isHovered && <MsgOptions incoming={item.incoming} />}
     </Stack>
   );
 };

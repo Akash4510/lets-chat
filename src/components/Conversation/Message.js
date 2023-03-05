@@ -11,7 +11,7 @@ import {
 } from './MsgTypes';
 import { useTheme } from '@mui/material/styles';
 
-const Message = () => {
+const Message = ({ showOptions }) => {
   const theme = useTheme();
 
   return (
@@ -33,19 +33,19 @@ const Message = () => {
             case 'msg':
               switch (item.subtype) {
                 case 'img':
-                  return <MediaMsg item={item} />;
+                  return <MediaMsg item={item} showOptions={showOptions} />;
 
                 case 'doc':
-                  return <DocMsg item={item} />;
+                  return <DocMsg item={item} showOptions={showOptions} />;
 
                 case 'link':
-                  return <LinkMsg item={item} />;
+                  return <LinkMsg item={item} showOptions={showOptions} />;
 
                 case 'reply':
-                  return <ReplyMsg item={item} />;
+                  return <ReplyMsg item={item} showOptions={showOptions} />;
 
                 default:
-                  return <TextMsg item={item} />;
+                  return <TextMsg item={item} showOptions={showOptions} />;
               }
 
             default:

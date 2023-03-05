@@ -3,7 +3,7 @@ import { Stack, Box, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import MsgOptions from '../MsgOptions';
 
-const ReplyMsg = ({ item }) => {
+const ReplyMsg = ({ item, showOptions }) => {
   const theme = useTheme();
   const [isHovered, setIsHovered] = useState(false);
 
@@ -55,7 +55,7 @@ const ReplyMsg = ({ item }) => {
           </Typography>
         </Stack>
       </Box>
-      {isHovered && <MsgOptions incoming={item.incoming} />}
+      {showOptions && isHovered && <MsgOptions incoming={item.incoming} />}
     </Stack>
   );
 };
