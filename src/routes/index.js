@@ -22,7 +22,10 @@ export default function Router() {
     {
       path: '/auth',
       element: <MainLayout />,
-      children: [{ element: <LoginPage />, path: 'login' }],
+      children: [
+        { element: <LoginPage />, path: 'login' },
+        { element: <RegisterPage />, path: 'register' },
+      ],
     },
     {
       path: '/',
@@ -45,6 +48,8 @@ const GeneralApp = Loadable(
 );
 
 const LoginPage = Loadable(lazy(() => import('../pages/auth/Login')));
+
+const RegisterPage = Loadable(lazy(() => import('../pages/auth/Register')));
 
 const Settings = Loadable(lazy(() => import('../pages/dashboard/Settings')));
 
