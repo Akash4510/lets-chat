@@ -34,7 +34,7 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         { element: <Navigate to={DEFAULT_PATH} replace />, index: true },
-        { path: 'app', element: <GeneralApp /> },
+        { path: 'chat', element: <GeneralApp /> },
         { path: 'settings', element: <Settings /> },
         { path: 'groups', element: <Groups /> },
         { path: '404', element: <Page404 /> },
