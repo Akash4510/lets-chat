@@ -4,11 +4,11 @@ import {
   IconButton,
   Stack,
   Typography,
-  Button,
   Divider,
+  Link,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { ArchiveBox, CircleDashed, MagnifyingGlass } from 'phosphor-react';
+import { Plus, CircleDashed, MagnifyingGlass } from 'phosphor-react';
 import { ChatList } from '../../data';
 import {
   Search,
@@ -17,7 +17,7 @@ import {
 } from '../../components/Search';
 import ChatEelement from '../../components/ChatElement';
 
-const Chats = () => {
+const Groups = () => {
   const theme = useTheme();
 
   return (
@@ -39,7 +39,7 @@ const Chats = () => {
           alignItems="center"
           justifyContent="space-between"
         >
-          <Typography variant="h5">Chats</Typography>
+          <Typography variant="h5">Groups</Typography>
 
           <IconButton>
             <CircleDashed />
@@ -57,9 +57,18 @@ const Chats = () => {
         </Stack>
 
         <Stack spacing={1}>
-          <Stack direction="row" alignItems="center" spacing={1.5}>
-            <ArchiveBox size={24} />
-            <Button variant="text">Archive</Button>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+            spacing={1.5}
+          >
+            <Typography variant="subtitle2" component={Link}>
+              Create New Group
+            </Typography>
+            <IconButton>
+              <Plus style={{ color: theme.palette.primary.main }} />
+            </IconButton>
           </Stack>
 
           <Divider />
@@ -83,7 +92,7 @@ const Chats = () => {
               variant="subtitle2"
               sx={{ color: '#676767', marginTop: 2 }}
             >
-              All Chats
+              All Groups
             </Typography>
             {ChatList.filter((item) => !item.pinned).map((item) => (
               <ChatEelement {...item} key={item.id} />
@@ -95,4 +104,4 @@ const Chats = () => {
   );
 };
 
-export default Chats;
+export default Groups;
