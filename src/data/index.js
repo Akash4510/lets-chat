@@ -197,6 +197,124 @@ const Chat_History = [
   },
 ];
 
+const Members_List = [
+  {
+    id: 0,
+    name: faker.name.fullName(),
+    img: faker.image.avatar(),
+    online: true,
+  },
+  {
+    id: 1,
+    name: faker.name.fullName(),
+    img: faker.image.avatar(),
+    online: false,
+  },
+  {
+    id: 2,
+    name: faker.name.fullName(),
+    img: faker.image.avatar(),
+    online: false,
+  },
+  {
+    id: 3,
+    name: faker.name.fullName(),
+    img: faker.image.avatar(),
+    online: true,
+  },
+  {
+    id: 4,
+    name: faker.name.fullName(),
+    img: faker.image.avatar(),
+    online: true,
+  },
+  // {
+  //   id: 5,
+  //   name: faker.name.fullName(),
+  //   img: faker.image.avatar(),
+  //   online: false,
+  // },
+  // {
+  //   id: 6,
+  //   name: faker.name.fullName(),
+  //   img: faker.image.avatar(),
+  //   online: false,
+  // },
+  // {
+  //   id: 7,
+  //   name: faker.name.fullName(),
+  //   img: faker.image.avatar(),
+  //   online: true,
+  // },
+];
+
+const Call_Log = [
+  {
+    id: 0,
+    img: faker.image.avatar(),
+    name: faker.name.fullName(),
+    time: 'Today 12:02',
+    missed: false,
+    incoming: true,
+  },
+  {
+    id: 1,
+    img: faker.image.avatar(),
+    name: faker.name.fullName(),
+    time: 'Today 09:36',
+    missed: true,
+    incoming: false,
+  },
+  {
+    id: 2,
+    img: faker.image.avatar(),
+    name: faker.name.fullName(),
+    time: 'Yesterday 10:35',
+    missed: false,
+    incoming: true,
+  },
+  {
+    id: 3,
+    img: faker.image.avatar(),
+    name: faker.name.fullName(),
+    time: 'Yesterday 08:42',
+    missed: false,
+    incoming: false,
+  },
+  {
+    id: 4,
+    img: faker.image.avatar(),
+    name: faker.name.fullName(),
+    time: 'Yesterday 08:42',
+    missed: false,
+    incoming: true,
+  },
+  {
+    id: 5,
+    img: faker.image.avatar(),
+    name: faker.name.fullName(),
+    time: 'Yesterday 08:42',
+    missed: true,
+    incoming: false,
+  },
+  {
+    id: 6,
+    img: faker.image.avatar(),
+    name: faker.name.fullName(),
+    time: 'Yesterday 04:00',
+    missed: false,
+    incoming: true,
+  },
+  {
+    id: 7,
+    img: faker.image.avatar(),
+    name: faker.name.fullName(),
+    time: 'Yesterday 03:32',
+    missed: true,
+    incoming: true,
+  },
+];
+
 const Message_options = [
   {
     title: 'Reply',
@@ -313,6 +431,8 @@ export {
   Nav_Buttons,
   ChatList,
   Chat_History,
+  Members_List,
+  Call_Log,
   Message_options,
   Shared_Links,
   Shared_Docs,
