@@ -74,7 +74,11 @@ const Header = () => {
             <MagnifyingGlass />
           </IconButton>
           <Divider orientation="vertical" flexItem />
-          <IconButton>
+          <IconButton
+            onClick={() => {
+              dispatch(ToggleSidebar());
+            }}
+          >
             <CaretDown />
           </IconButton>
         </Stack>
