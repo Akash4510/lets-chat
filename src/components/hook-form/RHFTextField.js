@@ -8,13 +8,12 @@ RHFTextField.propTypes = {
   helperText: PropTypes.node,
 };
 
-export default function RHFTextField({ name, label, helperText, ...other }) {
+export default function RHFTextField({ name, helperText, ...other }) {
   const { control } = useFormContext();
 
   return (
     <Controller
       name={name}
-      label={label}
       control={control}
       render={({ field, fieldState: { error } }) => (
         <TextField
