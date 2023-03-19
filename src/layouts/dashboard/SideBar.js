@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   IconButton,
@@ -22,6 +23,7 @@ const SideBar = () => {
   const theme = useTheme();
   const [selected, setSelected] = useState(0);
   const { onToggleMode } = useSettings();
+  const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -79,13 +81,20 @@ const SideBar = () => {
                   <IconButton
                     sx={{ width: 'max-content', color: '#fff' }}
                     key={item.index}
+                    onClick={() => {
+                      setSelected(item.index);
+                      navigate(item.path);
+                    }}
                   >
                     {item.icon}
                   </IconButton>
                 </Box>
               ) : (
                 <IconButton
-                  onClick={() => setSelected(item.index)}
+                  onClick={() => {
+                    setSelected(item.index);
+                    navigate(item.path);
+                  }}
                   sx={{
                     width: 'max-content',
                     color:
@@ -107,13 +116,22 @@ const SideBar = () => {
                   borderRadius: 1.5,
                 }}
               >
-                <IconButton sx={{ width: 'max-content', color: '#fff' }}>
+                <IconButton
+                  onClick={() => {
+                    setSelected(3);
+                    navigate('/settings');
+                  }}
+                  sx={{ width: 'max-content', color: '#fff' }}
+                >
                   <Gear />
                 </IconButton>
               </Box>
             ) : (
               <IconButton
-                onClick={() => setSelected(3)}
+                onClick={() => {
+                  setSelected(3);
+                  navigate('/settings');
+                }}
                 sx={{
                   width: 'max-content',
                   color:
@@ -160,12 +178,16 @@ const SideBar = () => {
           >
             <Stack spacing={1} padding={1}>
               {Profile_Menu.map((item) => (
-                <MenuItem onClick={handleClick}>
+                <MenuItem>
                   <Stack
                     sx={{ width: 100 }}
                     direction="row"
                     alignItems="center"
                     justifyContent="space-between"
+                    onClick={(event) => {
+                      handleClick(event);
+                      navigate(item.path);
+                    }}
                   >
                     <Typography variant="catption" sx={{ fontWeight: 500 }}>
                       {item.title}
