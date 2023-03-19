@@ -48,7 +48,13 @@ const MsgOptions = ({ incoming }) => {
       >
         <Stack spacing={1} padding={1}>
           {Message_options.map((item, index) => (
-            <MenuItem key={index} onClick={handleClick}>
+            <MenuItem
+              key={index}
+              onClick={() => {
+                handleClick();
+                handleClose();
+              }}
+            >
               <Typography variant="catption" sx={{ fontWeight: 500 }}>
                 {item.title}
               </Typography>

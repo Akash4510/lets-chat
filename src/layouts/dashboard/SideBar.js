@@ -187,6 +187,7 @@ const SideBar = () => {
                     onClick={(event) => {
                       handleClick(event);
                       navigate(item.path);
+                      handleClose();
                     }}
                   >
                     <Typography variant="catption" sx={{ fontWeight: 500 }}>
