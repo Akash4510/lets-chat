@@ -17,7 +17,6 @@ import {
 } from '../../components/Search';
 import { MagnifyingGlass } from 'phosphor-react';
 import { CallElement } from '../../components/CallElement';
-import { faker } from '@faker-js/faker';
 import { Members_List } from '../../data';
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -40,12 +39,7 @@ const StartCallForm = ({ handleClose }) => {
     defaultValues,
   });
 
-  const {
-    reset,
-    setError,
-    handleSubmit,
-    formState: { isSubmitting, isValid },
-  } = methods;
+  const { reset, setError, handleSubmit } = methods;
 
   const onSubmit = async (data) => {
     try {
