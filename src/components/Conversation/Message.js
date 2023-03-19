@@ -25,27 +25,37 @@ const Message = ({ showOptions }) => {
       }}
     >
       <Stack spacing={3}>
-        {Chat_History.map((item) => {
+        {Chat_History.map((item, idx) => {
           switch (item.type) {
             case 'divider':
-              return <Timeline item={item} />;
+              return <Timeline key={idx} item={item} />;
 
             case 'msg':
               switch (item.subtype) {
                 case 'img':
-                  return <MediaMsg item={item} showOptions={showOptions} />;
+                  return (
+                    <MediaMsg key={idx} item={item} showOptions={showOptions} />
+                  );
 
                 case 'doc':
-                  return <DocMsg item={item} showOptions={showOptions} />;
+                  return (
+                    <DocMsg key={idx} item={item} showOptions={showOptions} />
+                  );
 
                 case 'link':
-                  return <LinkMsg item={item} showOptions={showOptions} />;
+                  return (
+                    <LinkMsg key={idx} item={item} showOptions={showOptions} />
+                  );
 
                 case 'reply':
-                  return <ReplyMsg item={item} showOptions={showOptions} />;
+                  return (
+                    <ReplyMsg key={idx} item={item} showOptions={showOptions} />
+                  );
 
                 default:
-                  return <TextMsg item={item} showOptions={showOptions} />;
+                  return (
+                    <TextMsg key={idx} item={item} showOptions={showOptions} />
+                  );
               }
 
             default:
