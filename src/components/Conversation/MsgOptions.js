@@ -50,8 +50,8 @@ const MsgOptions = ({ incoming }) => {
           {Message_options.map((item, index) => (
             <MenuItem
               key={index}
-              onClick={() => {
-                handleClick();
+              onClick={(event) => {
+                handleClick(event);
                 handleClose();
               }}
             >
