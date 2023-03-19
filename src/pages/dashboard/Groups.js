@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   IconButton,
@@ -16,9 +16,12 @@ import {
   SearchInputBase,
 } from '../../components/Search';
 import ChatEelement from '../../components/ChatElement';
+import CreateGroup from '../../sections/main/CreateGroup';
 
 const Groups = () => {
   const theme = useTheme();
+
+  const [openDialog, setOpenDialog] = useState(false);
 
   return (
     <Box
@@ -66,7 +69,7 @@ const Groups = () => {
             <Typography variant="subtitle2" component={Link}>
               Create New Group
             </Typography>
-            <IconButton>
+            <IconButton onClick={() => setOpenDialog(true)}>
               <Plus style={{ color: theme.palette.primary.main }} />
             </IconButton>
           </Stack>
@@ -100,6 +103,13 @@ const Groups = () => {
           </Stack>
         </Stack>
       </Stack>
+
+      {openDialog && (
+        <CreateGroup
+          open={openDialog}
+          handleClose={() => setOpenDialog(false)}
+        />
+      )}
     </Box>
   );
 };
