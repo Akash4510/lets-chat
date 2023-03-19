@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Box,
   Fab,
@@ -18,7 +19,6 @@ import {
   User,
 } from 'phosphor-react';
 import { useTheme, styled } from '@mui/material/styles';
-import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import useResponsive from '../../hooks/useResponsive';
 
@@ -83,8 +83,8 @@ const ChatInput = ({ openPicker, setOpenPicker }) => {
                 display: openActions ? 'inline-block' : 'none',
               }}
             >
-              {Actions.map((el) => (
-                <Tooltip placement="right" title={el.title}>
+              {Actions.map((el, idx) => (
+                <Tooltip key={idx} placement="right" title={el.title}>
                   <Fab
                     onClick={() => {
                       setOpenActions(!openActions);
