@@ -34,6 +34,7 @@ const DocMsg = ({ item, showOptions }) => {
             direction="row"
             spacing={3}
             alignItems="center"
+            justifyContent="center"
             sx={{
               backgroundColor: theme.palette.background.default,
               borderRadius: 1,
