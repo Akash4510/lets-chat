@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -13,8 +14,10 @@ import {
 } from '@mui/material';
 import FormProvider, { RHFTextField } from '../../components/hook-form';
 import { Eye, EyeSlash } from 'phosphor-react';
+import { LoginUser } from '../../redux/slices/auth';
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
@@ -25,8 +28,8 @@ const LoginForm = () => {
   });
 
   const defaultValues = {
-    email: 'demo@tawk.com',
-    password: 'demo1234',
+    email: 'akash@email.com',
+    password: 'qwerty1234',
   };
 
   const methods = useForm({
@@ -45,6 +48,8 @@ const LoginForm = () => {
     try {
       console.log(data);
       // submit data to backend
+
+      dispatch(LoginUser(data));
     } catch (error) {
       console.error(error);
       reset();

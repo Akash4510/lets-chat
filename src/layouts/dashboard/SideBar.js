@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import {
   Box,
   IconButton,
@@ -18,12 +19,14 @@ import { faker } from '@faker-js/faker';
 import useSettings from '../../hooks/useSettings';
 import AntSwitch from '../../components/AntSwitch';
 import { Profile_Menu } from '../../data';
+import { LogOutUser } from '../../redux/slices/auth';
 
 const SideBar = () => {
   const theme = useTheme();
   const [selected, setSelected] = useState(0);
   const { onToggleMode } = useSettings();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -177,18 +180,26 @@ const SideBar = () => {
             }}
           >
             <Stack spacing={1} padding={1}>
-              {Profile_Menu.map((item) => (
-                <MenuItem>
+              {Profile_Menu.map((item, idx) => (
+                <MenuItem
+                  key={idx}
+                  onClick={(event) => {
+                    handleClick(event);
+
+                    if (idx === 2) {
+                      dispatch(LogOutUser());
+                    } else {
+                      navigate(item.path);
+                    }
+
+                    handleClose();
+                  }}
+                >
                   <Stack
                     sx={{ width: 100 }}
                     direction="row"
                     alignItems="center"
                     justifyContent="space-between"
-                    onClick={(event) => {
-                      handleClick(event);
-                      navigate(item.path);
-                      handleClose();
-                    }}
                   >
                     <Typography variant="catption" sx={{ fontWeight: 500 }}>
                       {item.title}
