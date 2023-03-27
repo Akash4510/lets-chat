@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -11,17 +13,20 @@ import {
 } from '@mui/material';
 import FormProvider, { RHFTextField } from '../../components/hook-form';
 import { Eye, EyeSlash } from 'phosphor-react';
+import { ResetPassword } from '../../redux/slices/auth';
 
-const LoginForm = () => {
+const NewPasswordForm = () => {
+  const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [showPassword, setShowPassword] = useState(false);
 
   const NewPasswordSchema = Yup.object().shape({
-    newPassword: Yup.string()
+    password: Yup.string()
       .min(6, 'Password must contain at least 6 characters')
       .required('Password is required'),
-    confirmPassword: Yup.string()
+    passwordConfirm: Yup.string()
       .required('Password is required')
-      .oneOf([Yup.ref('newPassword'), null], 'Password must match'),
+      .oneOf([Yup.ref('password'), null], 'Password must match'),
   });
 
   const defaultValues = {
@@ -45,6 +50,7 @@ const LoginForm = () => {
     try {
       console.log(data);
       // submit data to backend
+      dispatch(ResetPassword({ ...data, token: searchParams.get('token') }));
     } catch (error) {
       console.error(error);
       reset();
@@ -62,10 +68,10 @@ const LoginForm = () => {
           <Alert severity="error">{errors.afterSubmit.message}</Alert>
         )}
 
-        <RHFTextField name="newPassword" label="New Password" type="password" />
+        <RHFTextField name="password" label="New Password" type="password" />
 
         <RHFTextField
-          name="confirmPassword"
+          name="passwordConfirm"
           label="Confirm Password"
           type={showPassword ? 'text' : 'password'}
           InputProps={{
@@ -105,4 +111,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default NewPasswordForm;

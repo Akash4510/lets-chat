@@ -56,3 +56,52 @@ export function LogOutUser() {
     dispatch(authSlice.actions.signOut());
   };
 }
+
+export function ForgotPassword(formValues) {
+  return async (dispatch, getState) => {
+    await axios
+      .post(
+        '/auth/forgot-password',
+        { ...formValues },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+export function ResetPassword(formValues) {
+  return async (dispatch, getState) => {
+    await axios
+      .post(
+        '/auth/reset-password',
+        { ...formValues },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+
+        dispatch(
+          authSlice.actions.login({
+            isLoggedIn: true,
+            token: response.data.token,
+          })
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
