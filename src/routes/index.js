@@ -27,6 +27,7 @@ export default function Router() {
         { element: <RegisterPage />, path: 'register' },
         { element: <ResetPasswordPage />, path: 'reset-password' },
         { element: <NewPasswordPage />, path: 'new-password' },
+        { element: <VerifyEmailPage />, path: 'verify-email' },
       ],
     },
     {
@@ -58,6 +59,9 @@ const ResetPasswordPage = Loadable(
 );
 const NewPasswordPage = Loadable(
   lazy(() => import('../pages/auth/NewPassword'))
+);
+const VerifyEmailPage = Loadable(
+  lazy(() => import('../pages/auth/VerifyEmail'))
 );
 const Settings = Loadable(lazy(() => import('../pages/dashboard/Settings')));
 const ProfilePage = Loadable(lazy(() => import('../pages/dashboard/Profile')));

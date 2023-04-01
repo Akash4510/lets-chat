@@ -17,7 +17,7 @@ import { ResetPassword } from '../../redux/slices/auth';
 
 const NewPasswordForm = () => {
   const dispatch = useDispatch();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [showPassword, setShowPassword] = useState(false);
 
   const NewPasswordSchema = Yup.object().shape({
