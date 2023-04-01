@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -11,8 +12,10 @@ import {
 } from '@mui/material';
 import FormProvider, { RHFTextField } from '../../components/hook-form';
 import { Eye, EyeSlash } from 'phosphor-react';
+import { RegisterUser } from '../../redux/slices/auth';
 
 const RegisterForm = () => {
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
   const RegisterSchema = Yup.object().shape({
@@ -27,7 +30,7 @@ const RegisterForm = () => {
   const defaultValues = {
     firstName: '',
     lastName: '',
-    email: 'demo@tawk.com',
+    email: 'demo@user.com',
     password: 'demo1234',
   };
 
@@ -47,6 +50,7 @@ const RegisterForm = () => {
     try {
       console.log(data);
       // submit data to backend
+      dispatch(RegisterUser(data));
     } catch (error) {
       console.error(error);
       reset();
