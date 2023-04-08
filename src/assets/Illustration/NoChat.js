@@ -1,9 +1,6 @@
-import { memo } from "react";
-// @mui
-import { useTheme } from "@mui/material/styles";
-import { Box } from "@mui/material";
-
-// ----------------------------------------------------------------------
+import { memo } from 'react';
+import { useTheme } from '@mui/material/styles';
+import { Box } from '@mui/material';
 
 function NoChat({ ...other }) {
   const theme = useTheme();
@@ -13,8 +10,8 @@ function NoChat({ ...other }) {
   return (
     <Box {...other}>
       <svg
-        width="360"
-        height="360"
+        width="250"
+        height="250"
         viewBox="0 0 750 750"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
