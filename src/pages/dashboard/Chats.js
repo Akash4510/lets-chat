@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   IconButton,
@@ -8,7 +8,12 @@ import {
   Divider,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { ArchiveBox, CircleDashed, MagnifyingGlass } from 'phosphor-react';
+import {
+  ArchiveBox,
+  CircleDashed,
+  MagnifyingGlass,
+  Users,
+} from 'phosphor-react';
 import { ChatList } from '../../data';
 import {
   Search,
@@ -16,9 +21,11 @@ import {
   SearchInputBase,
 } from '../../components/Search';
 import ChatEelement from '../../components/ChatElement';
+import Friends from '../../sections/main/Friends';
 
 const Chats = () => {
   const theme = useTheme();
+  const [openDialog, setOpenDialog] = useState(false);
 
   return (
     <Box
@@ -41,9 +48,14 @@ const Chats = () => {
         >
           <Typography variant="h5">Chats</Typography>
 
-          <IconButton>
-            <CircleDashed />
-          </IconButton>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <IconButton onClick={() => setOpenDialog(!openDialog)}>
+              <Users />
+            </IconButton>
+            <IconButton>
+              <CircleDashed />
+            </IconButton>
+          </Stack>
         </Stack>
 
         <Stack sx={{ width: '100%' }}>
@@ -91,6 +103,10 @@ const Chats = () => {
           </Stack>
         </Stack>
       </Stack>
+
+      {openDialog && (
+        <Friends open={openDialog} handleClose={() => setOpenDialog(false)} />
+      )}
     </Box>
   );
 };

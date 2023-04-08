@@ -58,6 +58,8 @@ export function LoginUser(formValues) {
           })
         );
 
+        window.localStorage.setItem('userId', response.data.userId);
+
         dispatch(
           ShowSnackbar({
             message: response.data.message,
@@ -81,6 +83,7 @@ export function LoginUser(formValues) {
 export function LogOutUser() {
   return async (dispatch, getState) => {
     dispatch(authSlice.actions.signOut());
+    window.localStorage.removeItem('userId');
   };
 }
 
@@ -191,6 +194,8 @@ export function verifyEmail(formValues) {
             token: response.data.token,
           })
         );
+
+        window.localStorage.setItem('userId', response.data.userId);
       })
       .catch((error) => {
         console.log(error);

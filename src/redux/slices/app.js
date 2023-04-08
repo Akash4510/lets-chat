@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-// import { dispatch } from '../store';
+import axios from '../../utils/axios';
 
 const initialState = {
   sideBar: {
@@ -11,6 +11,9 @@ const initialState = {
     message: '',
     severity: 'success', // can be "success", "error", "warning", "info"
   },
+  users: [],
+  friends: [],
+  friendRequests: [],
 };
 
 const slice = createSlice({
@@ -33,35 +36,91 @@ const slice = createSlice({
       state.snackbar.message = '';
       state.snackbar.severity = 'success';
     },
+    updateUsers(state, action) {
+      state.users = action.payload.users;
+    },
+    updateFriends(state, action) {
+      state.friends = action.payload.friends;
+    },
+    updateFriendRequests(state, action) {
+      state.friendRequests = action.payload.friendRequests;
+    },
   },
 });
 
 export default slice.reducer;
 
-export function ToggleSidebar() {
-  return async (dispatch, getState) => {
-    dispatch(slice.actions.toggleSideBar());
-  };
-}
+export const ToggleSidebar = () => async (dispatch, getState) => {
+  dispatch(slice.actions.toggleSideBar());
+};
 
-export function SetSidebarType(type) {
-  return async (dispatch, getState) => {
-    dispatch(slice.actions.setSideBarType({ type }));
-  };
-}
+export const SetSidebarType = (type) => async (dispatch, getState) => {
+  dispatch(slice.actions.setSideBarType({ type }));
+};
 
-export function ShowSnackbar({ message, severity }) {
-  return async (dispatch, getState) => {
+export const ShowSnackbar =
+  ({ message, severity }) =>
+  async (dispatch, getState) => {
     dispatch(slice.actions.openSnackbar({ message, severity }));
 
     setTimeout(() => {
       dispatch(slice.actions.closeSnackbar());
     }, 4000);
   };
-}
 
-export function CloseSnackbar() {
-  return async (dispatch, getState) => {
-    dispatch(slice.actions.closeSnackbar());
-  };
-}
+export const CloseSnackbar = () => async (dispatch, getState) => {
+  dispatch(slice.actions.closeSnackbar());
+};
+
+export const FetchUsers = () => async (dispatch, getState) => {
+  await axios
+    .get('/user/get-users', {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getState().auth.token}`,
+      },
+    })
+    .then((res) => {
+      console.log(res);
+      dispatch(slice.actions.updateUsers({ users: res.data.data }));
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const FetchFriends = () => async (dispatch, getState) => {
+  await axios
+    .get('/user/get-friends', {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getState().auth.token}`,
+      },
+    })
+    .then((res) => {
+      console.log(res);
+      dispatch(slice.actions.updateFriends({ friends: res.data.data }));
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const FetchFriendRequests = () => async (dispatch, getState) => {
+  await axios
+    .get('/user/get-friend-requests', {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getState().auth.token}`,
+      },
+    })
+    .then((res) => {
+      console.log(res);
+      dispatch(
+        slice.actions.updateFriendRequests({ friendRequests: res.data.data })
+      );
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
