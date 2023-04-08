@@ -14,6 +14,8 @@ const initialState = {
   users: [],
   friends: [],
   friendRequests: [],
+  chatType: null,
+  roomId: null,
 };
 
 const slice = createSlice({
@@ -44,6 +46,10 @@ const slice = createSlice({
     },
     updateFriendRequests(state, action) {
       state.friendRequests = action.payload.friendRequests;
+    },
+    selectConversation(state, action) {
+      state.chatType = 'individual';
+      state.chatId = action.payload.roomId;
     },
   },
 });
@@ -123,4 +129,8 @@ export const FetchFriendRequests = () => async (dispatch, getState) => {
     .catch((err) => {
       console.log(err);
     });
+};
+
+export const SelectConversation = (roomId) => async (dispatch, getState) => {
+  dispatch(slice.actions.selectConversation({ roomId }));
 };
