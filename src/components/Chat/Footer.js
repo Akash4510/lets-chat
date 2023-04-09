@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { useSelector } from 'react-redux';
 import {
   Box,
   Fab,
@@ -24,6 +25,7 @@ import useResponsive from '../../hooks/useResponsive';
 
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
+import { socket } from '../../socket';
 
 const StyledInput = styled(TextField)(({ theme }) => ({
   '& .MuiInputBase-input': {
@@ -65,11 +67,22 @@ const Actions = [
   },
 ];
 
-const ChatInput = ({ openPicker, setOpenPicker }) => {
+const ChatInput = ({
+  openPicker,
+  setOpenPicker,
+  setValue,
+  value,
+  inputRef,
+}) => {
   const [openActions, setOpenActions] = React.useState(false);
 
   return (
     <StyledInput
+      inputRef={inputRef}
+      value={value}
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
       fullWidth
       placeholder="Write a message..."
       variant="filled"
@@ -131,14 +144,49 @@ const ChatInput = ({ openPicker, setOpenPicker }) => {
   );
 };
 
+const linkify = (text) => {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  return text.replace(
+    urlRegex,
+    (url) => `<a href="${url}" target="_blank">${url}</a>`
+  );
+};
+
+const containsUrl = (text) => {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  return urlRegex.test(text);
+};
+
 const Footer = () => {
   const theme = useTheme();
-
+  const { currentConversation } = useSelector(
+    (state) => state.conversation.directChat
+  );
+  const userId = window.localStorage.getItem('userId');
   const isMobile = useResponsive('between', 'md', 'xs', 'sm');
-
-  const [searchParams] = useSearchParams();
-
+  const { sideBar, roomId } = useSelector((state) => state.app);
   const [openPicker, setOpenPicker] = React.useState(false);
+  const [value, setValue] = useState('');
+  const inputRef = useRef(null);
+
+  const handleEmojiClick = (emoji) => {
+    const input = inputRef.current;
+
+    if (input) {
+      const selectionStart = input.selectionStart;
+      const selectionEnd = input.selectionEnd;
+
+      setValue(
+        value.substring(0, selectionStart) +
+          emoji +
+          value.substring(selectionEnd)
+      );
+
+      // Move the cursor to the end of the inserted emoji
+      input.selectionStart = input.selectionEnd = selectionStart + 1;
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -165,21 +213,23 @@ const Footer = () => {
                 position: 'fixed',
                 display: openPicker ? 'inline' : 'none',
                 bottom: 81,
-                right: isMobile
-                  ? 20
-                  : searchParams.get('open') === 'true'
-                  ? 420
-                  : 100,
+                right: isMobile ? 20 : sideBar.open ? 420 : 100,
               }}
             >
               <Picker
                 theme={theme.palette.mode}
                 data={data}
-                onEmojiSelect={console.log}
+                onEmojiSelect={(emoji) => handleEmojiClick(emoji.native)}
               />
             </Box>
             {/* Chat Input */}
-            <ChatInput openPicker={openPicker} setOpenPicker={setOpenPicker} />
+            <ChatInput
+              inputRef={inputRef}
+              value={value}
+              setValue={setValue}
+              openPicker={openPicker}
+              setOpenPicker={setOpenPicker}
+            />
           </Stack>
           <Box
             sx={{
@@ -194,7 +244,17 @@ const Footer = () => {
               alignItems={'center'}
               justifyContent="center"
             >
-              <IconButton>
+              <IconButton
+                onClick={() => {
+                  socket.emit('text_message', {
+                    message: linkify(value),
+                    conversationId: roomId,
+                    from: userId,
+                    to: currentConversation.userId,
+                    type: containsUrl(value) ? 'Link' : 'Text',
+                  });
+                }}
+              >
                 <PaperPlaneTilt color="#ffffff" />
               </IconButton>
             </Stack>

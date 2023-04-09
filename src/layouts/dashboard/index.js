@@ -4,11 +4,18 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { Stack } from '@mui/material';
 import SideBar from './SideBar';
 import { connectSocket, socket } from '../../socket';
-import { ShowSnackbar } from '../../redux/slices/app';
+import { SelectConversation, ShowSnackbar } from '../../redux/slices/app';
+import {
+  AddDirectConversation,
+  UpdateDirectConversations,
+} from '../../redux/slices/conversations';
 
 const DashboardLayout = () => {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.auth);
+  const { conversations } = useSelector(
+    (state) => state.conversation.directChat
+  );
   const userId = window.localStorage.getItem('userId');
 
   useEffect(() => {
@@ -31,12 +38,28 @@ const DashboardLayout = () => {
       socket.on('request_accept', (data) => {
         dispatch(ShowSnackbar({ severity: 'success', message: data.message }));
       });
+
+      socket.on('start_chat', (data) => {
+        console.log(data);
+        const existingConversation = conversations.find(
+          (item) => item.id === data._id
+        );
+
+        if (existingConversation) {
+          dispatch(UpdateDirectConversations({ conversation: data }));
+        } else {
+          dispatch(AddDirectConversation({ conversation: data }));
+        }
+
+        dispatch(SelectConversation({ roomId: data._id }));
+      });
     }
 
     return () => {
-      socket.off('request_sent');
-      socket.off('new_friend_request');
-      socket.off('request_accepted');
+      socket?.off('request_sent');
+      socket?.off('new_friend_request');
+      socket?.off('request_accepted');
+      socket?.off('start_chat');
     };
   }, [isLoggedIn, socket]);
 

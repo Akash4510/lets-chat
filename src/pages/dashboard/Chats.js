@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   IconButton,
@@ -7,6 +7,7 @@ import {
   Button,
   Divider,
 } from '@mui/material';
+import { useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
 import {
   ArchiveBox,
@@ -14,7 +15,6 @@ import {
   MagnifyingGlass,
   Users,
 } from 'phosphor-react';
-import { ChatList } from '../../data';
 import {
   Search,
   SearchIconWrapper,
@@ -22,10 +22,22 @@ import {
 } from '../../components/Search';
 import ChatEelement from '../../components/ChatElement';
 import Friends from '../../sections/main/Friends';
+import { socket } from '../../socket';
+
+import { ChatList } from '../../data';
+
+const userId = window.localStorage.getItem('userId');
 
 const Chats = () => {
   const theme = useTheme();
   const [openDialog, setOpenDialog] = useState(false);
+  const { conversations } = useSelector(
+    (state) => state.conversation.directChat
+  );
+
+  useEffect(() => {
+    socket.emit('get_direct_conversatoins', { userId }, (data) => {});
+  }, []);
 
   return (
     <Box
