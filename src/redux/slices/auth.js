@@ -6,6 +6,8 @@ const initialState = {
   isLoggedIn: null,
   token: null,
   isLoading: false,
+  user: null,
+  userId: null,
   email: '',
   error: false,
 };
@@ -21,12 +23,12 @@ const authSlice = createSlice({
     login: (state, action) => {
       state.isLoggedIn = action.payload.isLoggedIn;
       state.token = action.payload.token;
-      state.email = action.payload.email;
+      state.userId = action.payload.userId;
     },
     signOut: (state) => {
       state.isLoggedIn = false;
       state.token = null;
-      state.email = '';
+      state.userId = null;
     },
     updateRegisterEmail: (state, action) => {
       state.email = action.payload.email;
@@ -36,8 +38,110 @@ const authSlice = createSlice({
 
 export default authSlice.reducer;
 
-export function LoginUser(formValues) {
+export const RegisterUser = (formValues) => {
   return async (dispatch, getState) => {
+    dispatch(
+      authSlice.actions.updateIsLoading({ isLoading: true, error: false })
+    );
+
+    await axios
+      .post(
+        '/auth/register',
+        { ...formValues },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+
+        dispatch(
+          authSlice.actions.updateRegisterEmail({ email: formValues.email })
+        );
+
+        dispatch(
+          ShowSnackbar({ severity: 'success', message: response.data.message })
+        );
+
+        dispatch(
+          authSlice.actions.updateIsLoading({ isLoading: false, error: false })
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+
+        dispatch(ShowSnackbar({ severity: 'error', message: error.message }));
+
+        dispatch(
+          authSlice.actions.updateIsLoading({ isLoading: false, error: true })
+        );
+      })
+      .finally(() => {
+        if (!getState().auth.error) {
+          window.location.href = '/auth/verify-email';
+        }
+      });
+  };
+};
+
+export const VerifyEmail = (formValues) => {
+  return async (dispatch, getState) => {
+    dispatch(
+      authSlice.actions.updateIsLoading({ isLoading: true, error: false })
+    );
+
+    await axios
+      .post(
+        '/auth/verify-email',
+        { ...formValues },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+
+        dispatch(
+          authSlice.actions.login({
+            isLoggedIn: true,
+            token: response.data.token,
+          })
+        );
+
+        window.localStorage.setItem('userId', response.data.userId);
+
+        dispatch(authSlice.actions.updateRegisterEmail({ email: '' }));
+
+        dispatch(
+          ShowSnackbar({ severity: 'success', message: response.data.message })
+        );
+
+        dispatch(
+          authSlice.actions.updateIsLoading({ isLoading: false, error: false })
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+
+        dispatch(ShowSnackbar({ severity: 'error', message: error.message }));
+
+        dispatch(
+          authSlice.actions.updateIsLoading({ isLoading: false, error: true })
+        );
+      });
+  };
+};
+
+export const LoginUser = (formValues) => {
+  return async (dispatch, getState) => {
+    dispatch(
+      authSlice.actions.updateIsLoading({ isLoading: true, error: false })
+    );
+
     await axios
       .post(
         '/auth/login',
@@ -66,6 +170,10 @@ export function LoginUser(formValues) {
             severity: 'success',
           })
         );
+
+        dispatch(
+          authSlice.actions.updateIsLoading({ isLoading: false, error: false })
+        );
       })
       .catch((error) => {
         console.log(error);
@@ -76,19 +184,27 @@ export function LoginUser(formValues) {
             severity: 'error',
           })
         );
+
+        dispatch(
+          authSlice.actions.updateIsLoading({ isLoading: false, error: true })
+        );
       });
   };
-}
+};
 
-export function LogOutUser() {
+export const LogOutUser = () => {
   return async (dispatch, getState) => {
     dispatch(authSlice.actions.signOut());
     window.localStorage.removeItem('userId');
   };
-}
+};
 
-export function ForgotPassword(formValues) {
+export const ForgotPassword = (formValues) => {
   return async (dispatch, getState) => {
+    dispatch(
+      authSlice.actions.updateIsLoading({ isLoading: true, error: false })
+    );
+
     await axios
       .post(
         '/auth/forgot-password',
@@ -101,15 +217,33 @@ export function ForgotPassword(formValues) {
       )
       .then((response) => {
         console.log(response);
+
+        dispatch(
+          ShowSnackbar({ severity: 'success', message: response.data.message })
+        );
+
+        dispatch(
+          authSlice.actions.updateIsLoading({ isLoading: false, error: false })
+        );
       })
       .catch((error) => {
         console.log(error);
+
+        dispatch(ShowSnackbar({ severity: 'error', message: error.message }));
+
+        dispatch(
+          authSlice.actions.updateIsLoading({ isLoading: false, error: true })
+        );
       });
   };
-}
+};
 
-export function ResetPassword(formValues) {
+export const ResetPassword = (formValues) => {
   return async (dispatch, getState) => {
+    dispatch(
+      authSlice.actions.updateIsLoading({ isLoading: true, error: false })
+    );
+
     await axios
       .post(
         '/auth/reset-password',
@@ -129,76 +263,23 @@ export function ResetPassword(formValues) {
             token: response.data.token,
           })
         );
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-}
 
-export function RegisterUser(formValues) {
-  return async (dispatch, getState) => {
-    dispatch(
-      authSlice.actions.updateIsLoading({ isLoading: true, error: false })
-    );
-    await axios
-      .post(
-        '/auth/register',
-        { ...formValues },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
-      .then((response) => {
-        console.log(response);
         dispatch(
-          authSlice.actions.updateRegisterEmail({ email: formValues.email })
+          ShowSnackbar({ severity: 'success', message: response.data.message })
         );
+
         dispatch(
           authSlice.actions.updateIsLoading({ isLoading: false, error: false })
         );
       })
       .catch((error) => {
         console.log(error);
+
+        dispatch(ShowSnackbar({ severity: 'error', message: error.message }));
+
         dispatch(
           authSlice.actions.updateIsLoading({ isLoading: false, error: true })
         );
-      })
-      .finally(() => {
-        if (!getState().auth.error) {
-          window.location.href = '/auth/verify-email';
-        }
       });
   };
-}
-
-export function verifyEmail(formValues) {
-  return async (dispatch, getState) => {
-    await axios
-      .post(
-        '/auth/verify-email',
-        { ...formValues },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
-      .then((response) => {
-        console.log(response);
-        dispatch(
-          authSlice.actions.login({
-            isLoggedIn: true,
-            token: response.data.token,
-          })
-        );
-
-        window.localStorage.setItem('userId', response.data.userId);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-}
+};
