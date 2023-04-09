@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Stack, Alert, Button } from '@mui/material';
 import FormProvider, { RHFCodes } from '../../components/hook-form';
-import { verifyEmail } from '../../redux/slices/auth';
+import { VerifyEmail } from '../../redux/slices/auth';
 
 const VerifyEmailForm = () => {
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ const VerifyEmailForm = () => {
     try {
       console.log(data);
       dispatch(
-        verifyEmail({
+        VerifyEmail({
           email,
           otp: `${data.code1}${data.code2}${data.code3}${data.code4}${data.code5}${data.code6}`,
         })
