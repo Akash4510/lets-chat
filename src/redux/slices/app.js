@@ -193,9 +193,11 @@ export const FetchFriendRequests = () => async (dispatch, getState) => {
 };
 
 // Conversation Actions
-export const SelectConversation = (roomId) => async (dispatch, getState) => {
-  dispatch(slice.actions.selectConversation({ roomId }));
-};
+export const SelectConversation =
+  ({ roomId }) =>
+  async (dispatch, getState) => {
+    dispatch(slice.actions.selectConversation({ roomId }));
+  };
 
 // Call logs Actions
 export const FetchCallLogs = () => {
