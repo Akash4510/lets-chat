@@ -1,24 +1,48 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Box, Stack, Typography, Avatar, Badge } from '@mui/material';
-import { alpha, useTheme } from '@mui/material/styles';
+import { styled, alpha, useTheme } from '@mui/material/styles';
 import StyledBadge from './StyledBadge';
 import { SelectConversation } from '../redux/slices/app';
+
+const truncateText = (string, n) => {
+  return string?.length > n ? `${string?.slice(0, n)}...` : string;
+};
+
+const StyledChatBox = styled(Box)(({ theme }) => ({
+  '&:hover': {
+    cursor: 'pointer',
+  },
+}));
 
 const ChatEelement = ({ id, name, img, msg, time, unread, online }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
 
+  const { roomId } = useSelector((state) => state.app);
+  const selectedChatId = roomId?.toString();
+
+  let isSelected = +selectedChatId === id;
+
+  if (!selectedChatId) {
+    isSelected = false;
+  }
+
   return (
-    <Box
-      onClick={() => dispatch(SelectConversation({ roomId: id }))}
+    <StyledChatBox
+      onClick={() => {
+        dispatch(SelectConversation({ roomId: id }));
+      }}
       sx={{
         width: '100%',
         borderRadius: 1,
-        backgroundColor:
-          theme.palette.mode === 'light'
-            ? '#fff'
-            : alpha(theme.palette.background.default, 0.4),
+        backgroundColor: isSelected
+          ? theme.palette.mode === 'light'
+            ? alpha(theme.palette.primary.main, 0.5)
+            : theme.palette.primary.main
+          : theme.palette.mode === 'light'
+          ? '#fff'
+          : alpha(theme.palette.background.default, 0.4),
       }}
       p={2}
     >
@@ -39,7 +63,7 @@ const ChatEelement = ({ id, name, img, msg, time, unread, online }) => {
           <Stack spacing={0.3}>
             <Typography variant="subtitle2">{name}</Typography>
             <Typography
-              variant="captoin"
+              variant="caption"
               sx={{
                 fontSize: '0.8rem',
                 display: '-webkit-box',
@@ -48,7 +72,7 @@ const ChatEelement = ({ id, name, img, msg, time, unread, online }) => {
                 overflow: 'hidden',
               }}
             >
-              {msg}
+              {truncateText(msg, 20)}
             </Typography>
           </Stack>
         </Stack>
@@ -60,10 +84,15 @@ const ChatEelement = ({ id, name, img, msg, time, unread, online }) => {
           >
             {time}
           </Typography>
-          <Badge sx={{ width: 20 }} color="primary" badgeContent={unread} />
+          <Badge
+            className="unread-count"
+            sx={{ width: 20 }}
+            color="primary"
+            badgeContent={unread}
+          />
         </Stack>
       </Stack>
-    </Box>
+    </StyledChatBox>
   );
 };
 
