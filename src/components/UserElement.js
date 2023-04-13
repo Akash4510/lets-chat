@@ -12,6 +12,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import { Chat } from 'phosphor-react';
 import { socket } from '../socket';
 import StyledBadge from './StyledBadge';
+import { faker } from '@faker-js/faker';
 
 const StyledChatBox = styled(Box)(({ theme }) => ({
   '&:hover': {
@@ -42,10 +43,10 @@ const UserElement = ({ img, firstName, lastName, online, _id }) => {
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
               variant="dot"
             >
-              <Avatar alt={name} src={img} />
+              <Avatar src={faker.image.avatar()} alt={faker.name.fullName()} />
             </StyledBadge>
           ) : (
-            <Avatar alt={name} src={img} />
+            <Avatar src={faker.image.avatar()} alt={faker.name.fullName()} />
           )}
           <Stack spacing={0.3}>
             <Typography variant="subtitle2">{name}</Typography>
@@ -93,10 +94,10 @@ const FriendRequestElement = ({ img, firstName, lastName, online, id }) => {
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
               variant="dot"
             >
-              <Avatar alt={name} src={img} />
+              <Avatar src={faker.image.avatar()} alt={faker.name.fullName()} />
             </StyledBadge>
           ) : (
-            <Avatar alt={name} src={img} />
+            <Avatar src={faker.image.avatar()} alt={faker.name.fullName()} />
           )}
           <Stack spacing={0.3}>
             <Typography variant="subtitle2">{name}</Typography>
@@ -105,7 +106,6 @@ const FriendRequestElement = ({ img, firstName, lastName, online, id }) => {
         <Stack direction={'row'} spacing={2} alignItems="center">
           <Button
             onClick={() => {
-              //  emit "accept_request" event
               socket.emit('accept_request', { requestId: id });
             }}
           >
@@ -140,10 +140,10 @@ const FriendElement = ({ img, firstName, lastName, online, _id }) => {
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
               variant="dot"
             >
-              <Avatar alt={name} src={img} />
+              <Avatar src={faker.image.avatar()} alt={faker.name.fullName()} />
             </StyledBadge>
           ) : (
-            <Avatar alt={name} src={img} />
+            <Avatar src={faker.image.avatar()} alt={faker.name.fullName()} />
           )}
           <Stack spacing={0.3}>
             <Typography variant="subtitle2">{name}</Typography>
@@ -152,7 +152,6 @@ const FriendElement = ({ img, firstName, lastName, online, _id }) => {
         <Stack direction={'row'} spacing={2} alignItems="center">
           <IconButton
             onClick={() => {
-              // start a new conversation
               socket.emit('start_conversation', { to: _id, from: thisUserId });
             }}
           >
