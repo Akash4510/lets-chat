@@ -8,7 +8,7 @@ const initialState = {
   isLoading: false,
   user: null,
   userId: null,
-  email: '',
+  registeringEmail: null,
   error: false,
 };
 
@@ -29,9 +29,13 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
       state.token = null;
       state.userId = null;
+      state.user = null;
     },
-    updateRegisterEmail: (state, action) => {
-      state.email = action.payload.email;
+    updateRegisteringEmail: (state, action) => {
+      state.registeringEmail = action.payload.registeringEmail;
+    },
+    fetchUser: (state, action) => {
+      state.user = action.payload.user;
     },
   },
 });
@@ -58,7 +62,9 @@ export const RegisterUser = (formValues) => {
         console.log(response);
 
         dispatch(
-          authSlice.actions.updateRegisterEmail({ email: formValues.email })
+          authSlice.actions.updateRegisteringEmail({
+            registeringEmail: formValues.email,
+          })
         );
 
         dispatch(
@@ -109,12 +115,17 @@ export const VerifyEmail = (formValues) => {
           authSlice.actions.login({
             isLoggedIn: true,
             token: response.data.token,
+            userId: response.data.userId,
           })
         );
 
+        dispatch(authSlice.actions.fetchUser({ user: response.data.user }));
+
         window.localStorage.setItem('userId', response.data.userId);
 
-        dispatch(authSlice.actions.updateRegisterEmail({ email: '' }));
+        dispatch(
+          authSlice.actions.updateRegisteringEmail({ registeringEmail: null })
+        );
 
         dispatch(
           ShowSnackbar({ severity: 'success', message: response.data.message })
@@ -158,9 +169,11 @@ export const LoginUser = (formValues) => {
           authSlice.actions.login({
             isLoggedIn: true,
             token: response.data.token,
-            email: response.data.email,
+            userId: response.data.userId,
           })
         );
+
+        dispatch(authSlice.actions.fetchUser({ user: response.data.user }));
 
         window.localStorage.setItem('userId', response.data.userId);
 

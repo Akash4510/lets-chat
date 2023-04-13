@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import {
   Box,
   IconButton,
@@ -7,7 +8,6 @@ import {
   Button,
   Divider,
 } from '@mui/material';
-import { useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
 import {
   ArchiveBox,
@@ -26,14 +26,13 @@ import { socket } from '../../socket';
 
 import { ChatList } from '../../data';
 
-const userId = window.localStorage.getItem('userId');
-
 const Chats = () => {
   const theme = useTheme();
   const [openDialog, setOpenDialog] = useState(false);
   const { conversations } = useSelector(
     (state) => state.conversation.directChat
   );
+  const userId = useSelector((state) => state.auth.userId);
 
   useEffect(() => {
     socket.emit('get_direct_conversatoins', { userId }, (data) => {});

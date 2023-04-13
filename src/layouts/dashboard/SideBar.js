@@ -76,6 +76,7 @@ const SideBar = () => {
             {Nav_Buttons.map((item) =>
               item.index === selected ? (
                 <Box
+                  key={item.index}
                   sx={{
                     backgroundColor: theme.palette.primary.main,
                     borderRadius: 1.5,

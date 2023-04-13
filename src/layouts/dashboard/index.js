@@ -16,7 +16,7 @@ const DashboardLayout = () => {
   const { conversations } = useSelector(
     (state) => state.conversation.directChat
   );
-  const userId = window.localStorage.getItem('userId');
+  const userId = useSelector((state) => state.auth.userId);
 
   useEffect(() => {
     window.onload = () => {

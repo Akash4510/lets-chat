@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   Box,
   Stack,
@@ -12,8 +13,6 @@ import { Chat } from 'phosphor-react';
 import { socket } from '../socket';
 import StyledBadge from './StyledBadge';
 
-const userId = window.localStorage.getItem('userId');
-
 const StyledChatBox = styled(Box)(({ theme }) => ({
   '&:hover': {
     cursor: 'pointer',
@@ -22,7 +21,7 @@ const StyledChatBox = styled(Box)(({ theme }) => ({
 
 const UserElement = ({ img, firstName, lastName, online, _id }) => {
   const theme = useTheme();
-
+  const thisUserId = useSelector((state) => state.auth.userId);
   const name = `${firstName} ${lastName}`;
 
   return (
@@ -55,9 +54,13 @@ const UserElement = ({ img, firstName, lastName, online, _id }) => {
         <Stack direction={'row'} spacing={2} alignItems="center">
           <Button
             onClick={() => {
-              socket.emit('friend_request', { to: _id, from: userId }, () => {
-                alert('request sent');
-              });
+              socket.emit(
+                'friend_request',
+                { to: _id, from: thisUserId },
+                () => {
+                  alert('request sent');
+                }
+              );
             }}
           >
             Send Request
@@ -70,7 +73,6 @@ const UserElement = ({ img, firstName, lastName, online, _id }) => {
 
 const FriendRequestElement = ({ img, firstName, lastName, online, id }) => {
   const theme = useTheme();
-
   const name = `${firstName} ${lastName}`;
 
   return (
@@ -117,7 +119,7 @@ const FriendRequestElement = ({ img, firstName, lastName, online, id }) => {
 
 const FriendElement = ({ img, firstName, lastName, online, _id }) => {
   const theme = useTheme();
-
+  const thisUserId = useSelector((state) => state.auth.userId);
   const name = `${firstName} ${lastName}`;
 
   return (
@@ -151,7 +153,7 @@ const FriendElement = ({ img, firstName, lastName, online, _id }) => {
           <IconButton
             onClick={() => {
               // start a new conversation
-              socket.emit('start_conversation', { to: _id, from: userId });
+              socket.emit('start_conversation', { to: _id, from: thisUserId });
             }}
           >
             <Chat />

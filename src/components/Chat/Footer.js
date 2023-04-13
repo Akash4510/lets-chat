@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Box,
@@ -20,7 +20,6 @@ import {
   User,
 } from 'phosphor-react';
 import { useTheme, styled } from '@mui/material/styles';
-import { useSearchParams } from 'react-router-dom';
 import useResponsive from '../../hooks/useResponsive';
 
 import data from '@emoji-mart/data';
@@ -74,7 +73,7 @@ const ChatInput = ({
   value,
   inputRef,
 }) => {
-  const [openActions, setOpenActions] = React.useState(false);
+  const [openActions, setOpenActions] = useState(false);
 
   return (
     <StyledInput
@@ -162,15 +161,17 @@ const Footer = () => {
   const { currentConversation } = useSelector(
     (state) => state.conversation.directChat
   );
-  const userId = window.localStorage.getItem('userId');
+  const userId = useSelector((state) => state.auth.userId);
   const isMobile = useResponsive('between', 'md', 'xs', 'sm');
   const { sideBar, roomId } = useSelector((state) => state.app);
-  const [openPicker, setOpenPicker] = React.useState(false);
+  const [openPicker, setOpenPicker] = useState(false);
   const [value, setValue] = useState('');
   const inputRef = useRef(null);
 
   const handleEmojiClick = (emoji) => {
     const input = inputRef.current;
+    console.log('Inside handle emoji click');
+    console.log(input);
 
     if (input) {
       const selectionStart = input.selectionStart;
@@ -209,7 +210,7 @@ const Footer = () => {
           <Stack sx={{ width: '100%' }}>
             <Box
               style={{
-                zIndex: 10,
+                zIndex: 200,
                 position: 'fixed',
                 display: openPicker ? 'inline' : 'none',
                 bottom: 81,
@@ -219,7 +220,10 @@ const Footer = () => {
               <Picker
                 theme={theme.palette.mode}
                 data={data}
-                onEmojiSelect={(emoji) => handleEmojiClick(emoji.native)}
+                onEmojiSelect={(emoji) => {
+                  console.log('Hereeeeeeee');
+                  handleEmojiClick(emoji.native);
+                }}
               />
             </Box>
             {/* Chat Input */}
@@ -246,6 +250,7 @@ const Footer = () => {
             >
               <IconButton
                 onClick={() => {
+                  console.log('Sending message');
                   socket.emit('text_message', {
                     message: linkify(value),
                     conversationId: roomId,
