@@ -10,7 +10,7 @@ import {
   UserElement,
   FriendElement,
   FriendRequestElement,
-} from '../../components/Friends';
+} from '../../components/UserElement';
 
 const UsersList = () => {
   const dispatch = useDispatch();

@@ -106,7 +106,7 @@ const FriendRequestElement = ({ img, firstName, lastName, online, id }) => {
           <Button
             onClick={() => {
               //  emit "accept_request" event
-              socket.emit('accept_request', { request_id: id });
+              socket.emit('accept_request', { requestId: id });
             }}
           >
             Accept Request
