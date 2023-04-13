@@ -18,17 +18,17 @@ const conversationsSlice = createSlice({
   reducers: {
     fetchDirectConversations: (state, action) => {
       const list = action.payload.conversations.map((item) => {
-        const thisUser = item.participants.find(
+        const user = item.participants.find(
           (participant) => participant._id.toString() !== userId
         );
 
         return {
           id: item._id,
-          userId: thisUser._id,
-          name: `${thisUser.firstName} ${thisUser.lastName}`,
-          online: thisUser.status === 'online',
+          userId: user._id,
+          name: `${user.firstName} ${user.lastName}`,
+          online: user.status === 'online',
           img: faker.image.avatar(),
-          msg: item.messages.slice(-1)[0].text,
+          msg: faker.music.songName(),
           time: '10:35',
           unread: 3,
           pinned: false,
