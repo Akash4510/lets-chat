@@ -11,7 +11,7 @@ const initialState = {
     message: '',
     severity: 'success', // can be "success", "error", "warning", "info"
   },
-  user: null,
+  user: {},
   isLoggedIn: false,
   tab: 0,
   users: [],
@@ -82,9 +82,7 @@ const slice = createSlice({
 
     // Conversation
     selectConversation(state, action) {
-      state.chatType = action.payload.chatType
-        ? action.payload.chatType
-        : 'individual';
+      state.chatType = 'individual';
       state.roomId = action.payload.roomId;
     },
   },
@@ -139,22 +137,24 @@ export const FetchUsers = () => async (dispatch, getState) => {
     });
 };
 
-export const FetchAllUsers = () => async (dispatch, getState) => {
-  await axios
-    .get('/user/get-all-verified-users', {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${getState().auth.token}`,
-      },
-    })
-    .then((response) => {
-      console.log(response);
-      dispatch(slice.actions.updateAllUsers({ users: response.data.data }));
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
+export function FetchAllUsers() {
+  return async (dispatch, getState) => {
+    await axios
+      .get('/user/get-all-verified-users', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${getState().auth.token}`,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        dispatch(slice.actions.updateAllUsers({ users: response.data.data }));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+}
 
 export const FetchFriends = () => async (dispatch, getState) => {
   await axios
