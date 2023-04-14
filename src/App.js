@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Router from './routes';
 import ThemeProvider from './theme';
-import ThemeSettings from './components/settings';
+// import ThemeSettings from './components/settings';
 import { Snackbar } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 import { CloseSnackbar } from './redux/slices/app';
@@ -20,9 +20,10 @@ const App = () => {
   return (
     <>
       <ThemeProvider>
-        <ThemeSettings>
+        {/* <ThemeSettings>
           <Router />
-        </ThemeSettings>
+        </ThemeSettings> */}
+        <Router />
       </ThemeProvider>
 
       {open && message && (

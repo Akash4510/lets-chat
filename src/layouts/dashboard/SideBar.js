@@ -8,7 +8,7 @@ import useSettings from '../../hooks/useSettings';
 import AntSwitch from '../../components/AntSwitch';
 import ProfileMenu from './ProfileMenu';
 import { UpdateTab } from '../../redux/slices/app';
-import { NAV_BUTTONS } from '../../data/sidebar';
+import { NAV_BUTTONS } from '../../data/nav';
 
 const SideBar = () => {
   const theme = useTheme();
@@ -21,9 +21,9 @@ const SideBar = () => {
 
   const { onToggleMode } = useSettings();
 
-  const handleChangeTab = (index) => {
+  const handleChangeTab = (index, path) => {
     dispatch(UpdateTab({ tab: index }));
-    navigate(NAV_BUTTONS[index].to);
+    navigate(path);
   };
 
   return (
@@ -67,7 +67,7 @@ const SideBar = () => {
             {NAV_BUTTONS.map((item) => (
               <>
                 {item.index === 3 && <Divider sx={{ width: 45 }} />}
-                {item.index == selectedTab ? (
+                {item.index === selectedTab ? (
                   <Box
                     key={item.index}
                     sx={{
@@ -78,7 +78,7 @@ const SideBar = () => {
                     <IconButton
                       sx={{ width: 'max-content', color: '#ffffff' }}
                       onClick={() => {
-                        handleChangeTab(item.index);
+                        handleChangeTab(item.index, item.to);
                       }}
                     >
                       {item.icon}
@@ -95,7 +95,7 @@ const SideBar = () => {
                           : theme.palette.text.primary,
                     }}
                     onClick={() => {
-                      handleChangeTab(item.index);
+                      handleChangeTab(item.index, item.to);
                     }}
                   >
                     {item.icon}

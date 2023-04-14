@@ -18,7 +18,7 @@ import useResponsive from '../../hooks/useResponsive';
 import StyledBadge from '../../components/StyledBadge';
 import { ToggleSidebar } from '../../redux/slices/app';
 
-const Conversation_Menu = [
+const CONVERSATION_MENU = [
   {
     title: 'Contact info',
   },
@@ -65,17 +65,17 @@ const ChatHeader = () => {
       }}
     >
       <Stack
-        alignItems={'center'}
-        direction={'row'}
-        sx={{ width: '100%', height: '100%' }}
+        direction="row"
+        alignItems="center"
         justifyContent="space-between"
+        sx={{ width: '100%', height: '100%' }}
       >
         <Stack
+          spacing={2}
+          direction="row"
           onClick={() => {
             dispatch(ToggleSidebar());
           }}
-          spacing={2}
-          direction="row"
         >
           <Box>
             <StyledBadge
@@ -96,7 +96,7 @@ const ChatHeader = () => {
             <Typography variant="caption">Online</Typography>
           </Stack>
         </Stack>
-        <Stack direction={'row'} alignItems="center" spacing={isMobile ? 1 : 3}>
+        <Stack direction="row" alignItems="center" spacing={isMobile ? 1 : 3}>
           <IconButton>
             <VideoCamera />
           </IconButton>
@@ -142,16 +142,16 @@ const ChatHeader = () => {
           >
             <Box p={1}>
               <Stack spacing={1}>
-                {Conversation_Menu.map((el) => (
+                {CONVERSATION_MENU.map((el) => (
                   <MenuItem onClick={handleCloseConversationMenu}>
                     <Stack
-                      sx={{ minWidth: 100 }}
                       direction="row"
-                      alignItems={'center'}
+                      alignItems="center"
                       justifyContent="space-between"
+                      sx={{ minWidth: 100 }}
                     >
                       <span>{el.title}</span>
-                    </Stack>{' '}
+                    </Stack>
                   </MenuItem>
                 ))}
               </Stack>

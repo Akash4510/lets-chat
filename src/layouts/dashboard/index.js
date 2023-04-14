@@ -2,41 +2,82 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
 import { Stack } from '@mui/material';
+import useResponsive from '../../hooks/useResponsive';
 import SideBar from './SideBar';
 import { connectSocket, socket } from '../../socket';
-import { SelectConversation, ShowSnackbar } from '../../redux/slices/app';
 import {
+  SelectConversation,
+  ShowSnackbar,
+  FetchUserProfile,
+} from '../../redux/slices/app';
+import {
+  AddDirectMessage,
   AddDirectConversation,
   UpdateDirectConversations,
 } from '../../redux/slices/conversations';
 
 const DashboardLayout = () => {
   const dispatch = useDispatch();
+  const isDesktop = useResponsive('up', 'md');
+
   const { isLoggedIn } = useSelector((state) => state.auth);
-  const { conversations } = useSelector(
+  const { conversations, currentConversation } = useSelector(
     (state) => state.conversation.directChat
   );
   const userId = useSelector((state) => state.auth.userId);
 
   useEffect(() => {
-    window.onload = () => {
-      if (!window.location.hash) {
-        window.location = window.location + '#loaded';
-        window.location.reload();
+    dispatch(FetchUserProfile());
+  }, []);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      window.onload = () => {
+        if (!window.location.hash) {
+          window.location = window.location + '#loaded';
+          window.location.reload();
+        }
+      };
+
+      window.onload();
+
+      if (!socket) {
+        connectSocket(userId);
       }
-    };
 
-    if (!socket) {
-      connectSocket(userId);
-
-      socket.on('request_send', (data) => {
+      socket.on('friend_request_sent', (data) => {
         dispatch(ShowSnackbar({ severity: 'success', message: data.message }));
       });
+
       socket.on('new_friend_request', (data) => {
         dispatch(ShowSnackbar({ severity: 'success', message: data.message }));
       });
-      socket.on('request_accept', (data) => {
-        dispatch(ShowSnackbar({ severity: 'success', message: data.message }));
+
+      socket.on('accept_friend_request', (data) => {
+        dispatch(
+          ShowSnackbar({
+            severity: 'success',
+            message: 'Friend Request Accepted',
+          })
+        );
+      });
+
+      socket.on('new_message', (data) => {
+        const message = data.message;
+        console.log(currentConversation, data);
+
+        if (currentConversation.id === data.conversationId) {
+          dispatch(
+            AddDirectMessage({
+              id: message._id,
+              type: 'msg',
+              subtype: message.type,
+              message: message.text,
+              incoming: message.to === userId,
+              outgoing: message.from === userId,
+            })
+          );
+        }
       });
 
       socket.on('start_chat', (data) => {
@@ -56,9 +97,10 @@ const DashboardLayout = () => {
     }
 
     return () => {
-      socket?.off('request_sent');
+      socket?.off('friend_request_sent');
       socket?.off('new_friend_request');
-      socket?.off('request_accepted');
+      socket?.off('accept_friend_request');
+      socket?.off('new_message');
       socket?.off('start_chat');
     };
   }, [isLoggedIn, socket]);
@@ -69,7 +111,8 @@ const DashboardLayout = () => {
 
   return (
     <Stack direction="row">
-      <SideBar />
+      {isDesktop && <SideBar />}
+
       <Outlet />
     </Stack>
   );

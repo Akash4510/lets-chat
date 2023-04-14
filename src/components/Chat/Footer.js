@@ -21,7 +21,6 @@ import {
 } from 'phosphor-react';
 import { useTheme, styled } from '@mui/material/styles';
 import useResponsive from '../../hooks/useResponsive';
-
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import { socket } from '../../socket';
@@ -33,7 +32,7 @@ const StyledInput = styled(TextField)(({ theme }) => ({
   },
 }));
 
-const Actions = [
+const ACTIONS = [
   {
     color: '#4da5fe',
     icon: <Image size={24} />,
@@ -95,7 +94,7 @@ const ChatInput = ({
                 display: openActions ? 'inline-block' : 'none',
               }}
             >
-              {Actions.map((el, idx) => (
+              {ACTIONS.map((el, idx) => (
                 <Tooltip key={idx} placement="right" title={el.title}>
                   <Fab
                     onClick={() => {
@@ -197,7 +196,7 @@ const Footer = () => {
     >
       <Box
         p={isMobile ? 1 : 2}
-        width={'100%'}
+        width="100%"
         sx={{
           backgroundColor:
             theme.palette.mode === 'light'

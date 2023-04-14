@@ -12,8 +12,8 @@ const MainLayout = () => {
   }
 
   return (
-    <Container sx={{ mt: 5 }} maxWidth="sm">
-      <Stack spacing={20}>
+    <Container sx={{ mt: 8 }} maxWidth="sm">
+      <Stack spacing={3}>
         <Stack
           sx={{ width: '100%', mb: '40px' }}
           direction="column"
@@ -21,9 +21,8 @@ const MainLayout = () => {
         >
           <img style={{ height: 100, width: 100 }} src={logo} alt="logo" />
         </Stack>
+        <Outlet />
       </Stack>
-
-      <Outlet />
     </Container>
   );
 };

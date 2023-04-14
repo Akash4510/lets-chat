@@ -1,26 +1,48 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Stack, Box } from '@mui/material';
-import Header from './Header';
-import Message from './Message';
-import Footer from './Footer';
+import { useTheme } from '@mui/material/styles';
+import { ChatHeader, ChatFooter } from '../Chat';
+import Messages from './Message';
+import useResponsive from '../../hooks/useResponsive';
+import { useSelector } from 'react-redux';
 
 const Conversation = () => {
-  return (
-    <Stack height="100%" maxHeight="100vh" width="auto">
-      {/* Chat Header */}
-      <Header />
+  const isMobile = useResponsive('between', 'md', 'xs', 'sm');
+  const theme = useTheme();
 
-      {/* Messages */}
+  const messageListRef = useRef(null);
+  const { currentMessages } = useSelector(
+    (state) => state.conversation.directChat
+  );
+
+  useEffect(() => {
+    messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
+  }, [currentMessages]);
+
+  return (
+    <Stack height="100%" maxHeight="100vh" width={isMobile ? '100vw' : 'auto'}>
+      <ChatHeader />
+
       <Box
+        ref={messageListRef}
         className="no-scrollbar"
         width="100%"
-        sx={{ flexGrow: 1, height: '100%', overflowY: 'scroll' }}
+        sx={{
+          flexGrow: 1,
+          height: '100%',
+          overflowY: 'scroll',
+          backgroundColor:
+            theme.palette.mode === 'light'
+              ? '#F0F4FA'
+              : theme.palette.background,
+
+          boxShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)',
+        }}
       >
-        <Message showOptions />
+        <Messages showOptions />
       </Box>
 
-      {/* Chat Footer */}
-      <Footer />
+      <ChatFooter />
     </Stack>
   );
 };

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Stack, Box } from '@mui/material';
-import { Chat_History } from '../../data';
 import {
   DocMsg,
   LinkMsg,
@@ -9,23 +9,35 @@ import {
   TextMsg,
   Timeline,
 } from './MsgTypes';
-import { useTheme } from '@mui/material/styles';
+import { socket } from '../../socket';
+import {
+  FetchCurrentMessages,
+  SetCurrentConversation,
+} from '../../redux/slices/conversations';
 
-const Message = ({ showOptions }) => {
-  const theme = useTheme();
+const Messages = ({ showOptions, isMobile }) => {
+  const dispatch = useDispatch();
+
+  const { conversations, currentMessages } = useSelector(
+    (state) => state.conversation.directChat
+  );
+  const { roomId } = useSelector((state) => state.app);
+
+  useEffect(() => {
+    const currentConv = conversations.find((item) => item.id === roomId);
+
+    socket.emit('get_messages', { conversationId: currentConv.id }, (data) => {
+      console.log('List of messages', data);
+      dispatch(FetchCurrentMessages({ messages: data }));
+    });
+
+    dispatch(SetCurrentConversation(currentConv));
+  }, []);
 
   return (
-    <Box
-      p={3}
-      sx={{
-        backgroundColor:
-          theme.palette.mode === 'light'
-            ? '#fff'
-            : theme.palette.background.default,
-      }}
-    >
+    <Box p={isMobile ? 1 : 3}>
       <Stack spacing={3}>
-        {Chat_History.map((item, idx) => {
+        {currentMessages.map((item, idx) => {
           switch (item.type) {
             case 'divider':
               return <Timeline key={idx} item={item} />;
@@ -67,4 +79,4 @@ const Message = ({ showOptions }) => {
   );
 };
 
-export default Message;
+export default Messages;

@@ -42,7 +42,7 @@ const ChatEelement = ({ id, name, img, msg, time, unread, online }) => {
             : theme.palette.primary.main
           : theme.palette.mode === 'light'
           ? '#fff'
-          : alpha(theme.palette.background.default, 0.4),
+          : alpha(theme.palette.background.paper, 0.8),
       }}
       p={2}
     >

@@ -4,7 +4,7 @@ import { useTheme } from '@mui/material/styles';
 import { CaretLeft } from 'phosphor-react';
 import { useDispatch } from 'react-redux';
 import { SetSidebarType } from '../redux/slices/app';
-import Message from './Conversation/Message';
+import Messages from './Conversation/Message';
 
 const StarredMessages = () => {
   const theme = useTheme();
@@ -50,7 +50,7 @@ const StarredMessages = () => {
           p={3}
           spacing={4}
         >
-          <Message showOptions={false} />
+          <Messages showOptions={false} />
         </Stack>
       </Stack>
     </Box>
