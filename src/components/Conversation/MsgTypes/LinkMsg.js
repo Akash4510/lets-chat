@@ -20,7 +20,7 @@ const LinkMsg = ({ item, showOptions }) => {
         sx={{
           backgroundColor: item.incoming
             ? theme.palette.mode === 'light'
-              ? '#f1f5ff'
+              ? '#F1F5FF'
               : theme.palette.background.paper
             : theme.palette.primary.main,
           borderRadius: 1.5,
@@ -33,7 +33,7 @@ const LinkMsg = ({ item, showOptions }) => {
           sx={{
             backgroundColor:
               theme.palette.mode === 'light'
-                ? '#f1f5ff'
+                ? '#F1F5FF'
                 : theme.palette.background.paper,
             borderRadius: 1,
           }}
@@ -59,7 +59,7 @@ const LinkMsg = ({ item, showOptions }) => {
             <Typography
               variant="body2"
               fontWeight={500}
-              color={item.incoming ? theme.palette.text : '#fff'}
+              color={item.incoming ? theme.palette.text : '#FFFFFF'}
             >
               {item.message}
             </Typography>

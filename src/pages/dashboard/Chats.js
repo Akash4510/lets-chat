@@ -54,7 +54,9 @@ const Chats = () => {
         width: isDesktop ? 340 : '100vw',
         height: '100vh',
         backgroundColor:
-          theme.palette.mode === 'light' ? '#f1f5ff' : theme.palette.background,
+          theme.palette.mode === 'light'
+            ? '#F1F5FF'
+            : theme.palette.background.paper,
         boxShadow: '0 0 2px rgba(0, 0, 0, 0.25)',
       }}
     >

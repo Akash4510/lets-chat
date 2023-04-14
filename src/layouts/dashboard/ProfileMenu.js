@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Avatar, Box, Fade, Menu, MenuItem, Stack } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Fade,
+  Menu,
+  MenuItem,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { PROFILE_MENU_ITEMS } from '../../data/nav';
 import { LogOutUser } from '../../redux/slices/auth';
 import { socket } from '../../socket';
@@ -32,6 +40,7 @@ const ProfileMenu = () => {
         onClick={(event) => {
           setAnchorEl(event.currentTarget);
         }}
+        sx={{ cursor: 'pointer' }}
       />
       <Menu
         MenuListProps={{
@@ -81,7 +90,12 @@ const ProfileMenu = () => {
                     }
                   }}
                 >
-                  <span>{item.title}</span>
+                  <span>
+                    <Typography sx={{ fontSize: '0.9rem' }}>
+                      {item.title}
+                    </Typography>
+                  </span>
+
                   {item.icon}
                 </Stack>
               </MenuItem>

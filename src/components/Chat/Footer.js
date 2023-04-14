@@ -259,7 +259,7 @@ const Footer = () => {
                   });
                 }}
               >
-                <PaperPlaneTilt color="#ffffff" />
+                <PaperPlaneTilt color="#FFFFFF" />
               </IconButton>
             </Stack>
           </Box>

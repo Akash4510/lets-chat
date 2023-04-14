@@ -44,7 +44,7 @@ const BottomNav = () => {
                 }}
               >
                 <IconButton
-                  sx={{ width: 'max-content', color: '#ffffff' }}
+                  sx={{ width: 'max-content', color: '#FFFFFF' }}
                   onClick={() => {
                     handleChangeTab(item.index, item.to);
                   }}

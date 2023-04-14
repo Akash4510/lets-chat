@@ -41,8 +41,8 @@ const ChatEelement = ({ id, name, img, msg, time, unread, online }) => {
             ? alpha(theme.palette.primary.main, 0.5)
             : theme.palette.primary.main
           : theme.palette.mode === 'light'
-          ? '#fff'
-          : alpha(theme.palette.background.paper, 0.8),
+          ? '#FFFFFF'
+          : alpha(theme.palette.background.default, 0.6),
       }}
       p={2}
     >
@@ -66,6 +66,7 @@ const ChatEelement = ({ id, name, img, msg, time, unread, online }) => {
               variant="caption"
               sx={{
                 fontSize: '0.8rem',
+                fontWeight: 400,
                 display: '-webkit-box',
                 WebkitBoxOrient: 'vertical',
                 WebkitLineClamp: 1,

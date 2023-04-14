@@ -19,7 +19,7 @@ const ReplyMsg = ({ item, showOptions }) => {
         sx={{
           backgroundColor: item.incoming
             ? theme.palette.mode === 'light'
-              ? '#f1f5ff'
+              ? '#F1F5FF'
               : theme.palette.background.paper
             : theme.palette.primary.main,
           borderRadius: 1.5,
@@ -48,7 +48,7 @@ const ReplyMsg = ({ item, showOptions }) => {
           <Typography
             variant="body2"
             fontWeight={500}
-            color={item.incoming ? theme.palette.text.primary : '#fff'}
+            color={item.incoming ? theme.palette.text.primary : '#FFFFFF'}
             sx={{ padding: '0 6px' }}
           >
             {item.reply}

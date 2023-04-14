@@ -32,9 +32,7 @@ const Conversation = () => {
           height: '100%',
           overflowY: 'scroll',
           backgroundColor:
-            theme.palette.mode === 'light'
-              ? '#F0F4FA'
-              : theme.palette.background,
+            theme.palette.mode === 'light' ? '#FFF' : theme.palette.background,
 
           boxShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)',
         }}

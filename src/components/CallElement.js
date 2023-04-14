@@ -19,7 +19,7 @@ const CallElement = ({ name, img, online }) => {
         borderRadius: 1,
         backgroundColor:
           theme.palette.mode === 'light'
-            ? '#fff'
+            ? '#FFFFFF'
             : alpha(theme.palette.background.default, 0.4),
       }}
       p={2}
@@ -65,7 +65,7 @@ const CallLogElement = ({ name, img, time, online, incoming, missed }) => {
         borderRadius: 1,
         backgroundColor:
           theme.palette.mode === 'light'
-            ? '#fff'
+            ? '#FFFFFF'
             : alpha(theme.palette.background.default, 0.4),
       }}
       p={2}

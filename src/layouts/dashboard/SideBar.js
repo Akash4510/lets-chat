@@ -32,10 +32,7 @@ const SideBar = () => {
         height: '100vh',
         width: '80px',
         padding: 2,
-        backgroundColor:
-          theme.palette.mode === 'light'
-            ? '#F0F4FA'
-            : theme.palette.background.paper,
+        backgroundColor: theme.palette.background.default,
         boxShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)',
       }}
     >
@@ -76,7 +73,7 @@ const SideBar = () => {
                     }}
                   >
                     <IconButton
-                      sx={{ width: 'max-content', color: '#ffffff' }}
+                      sx={{ width: 'max-content', color: '#FFFFFF' }}
                       onClick={() => {
                         handleChangeTab(item.index, item.to);
                       }}

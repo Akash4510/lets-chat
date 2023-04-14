@@ -36,8 +36,8 @@ const SharedMessages = () => {
             height: 94,
             backgroundColor:
               theme.palette.mode === 'light'
-                ? '#f1f5ff'
-                : theme.palette.background.paper,
+                ? '#F1F5FF'
+                : theme.palette.background.default,
           }}
         >
           <Stack
@@ -54,7 +54,13 @@ const SharedMessages = () => {
         </Box>
 
         <Tabs
-          sx={{ p: 2 }}
+          sx={{
+            p: 2,
+            backgroundColor:
+              theme.palette.mode === 'light'
+                ? '#FFFFFF'
+                : theme.palette.background.paper,
+          }}
           value={selectedTab}
           onChange={handleTabChange}
           centered
@@ -73,6 +79,10 @@ const SharedMessages = () => {
             flexGrow: 1,
             overflowY: 'scroll',
             paddingTop: 4,
+            backgroundColor:
+              theme.palette.mode === 'light'
+                ? '#FFFFFF'
+                : theme.palette.background.paper,
           }}
           p={3}
           spacing={4}

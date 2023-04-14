@@ -31,7 +31,7 @@ const Call = () => {
         height: '100vh',
         backgroundColor:
           theme.palette.mode === 'light'
-            ? '#f1f5ff'
+            ? '#F1F5FF'
             : theme.palette.background.paper,
         boxShadow: '0 0 2px rgba(0, 0, 0, 0.25)',
       }}

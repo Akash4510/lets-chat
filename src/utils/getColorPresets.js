@@ -15,7 +15,7 @@ export const colorPresets = [
     main: '#7635dc',
     dark: '#431A9E',
     darker: '#200A69',
-    contrastText: '#fff',
+    contrastText: '#FFFFFF',
   },
   // CYAN
   {
@@ -36,7 +36,7 @@ export const colorPresets = [
     dark: '#103996',
     darker: '#061B64',
 
-    contrastText: '#fff',
+    contrastText: '#FFFFFF',
   },
   // ORANGE
   {
@@ -56,7 +56,7 @@ export const colorPresets = [
     main: '#FF3030',
     dark: '#B71833',
     darker: '#7A0930',
-    contrastText: '#fff',
+    contrastText: '#FFFFFF',
   },
 ];
 

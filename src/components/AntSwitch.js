@@ -18,7 +18,7 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
     padding: 2,
     '&.Mui-checked': {
       transform: 'translateX(22px)',
-      color: '#fff',
+      color: '#FFFFFF',
       '& + .MuiSwitch-track': {
         opacity: 1,
         backgroundColor: theme.palette.mode === 'dark' ? '#177ddc' : '#1890ff',

@@ -125,7 +125,7 @@ const Footer = () => {
         width: '100%',
         backgroundColor:
           theme.palette.mode === 'light'
-            ? '#f1f5ff'
+            ? '#F1F5FF'
             : theme.palette.background.default,
         boxShadow: '0 0 2px rgba(0, 0, 0, 0.25)',
       }}
@@ -160,7 +160,7 @@ const Footer = () => {
             justifyContent="center"
           >
             <IconButton>
-              <PaperPlaneTilt color="#fff" />
+              <PaperPlaneTilt color="#FFFFFF" />
             </IconButton>
           </Stack>
         </Box>
