@@ -57,10 +57,7 @@ const slice = createSlice({
     },
 
     // User
-    fetchUser(state, action) {
-      state.user = action.payload.user;
-    },
-    updateUser(state, action) {
+    setUser(state, action) {
       state.user = action.payload.user;
     },
 
@@ -253,7 +250,7 @@ export const UpdateUserProfile = (formValues) => {
       )
       .then((response) => {
         console.log(response);
-        dispatch(slice.actions.updateUser({ user: response.data.data }));
+        dispatch(slice.actions.setUser({ user: response.data.data }));
       })
       .catch((err) => {
         console.log(err);
