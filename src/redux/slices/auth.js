@@ -20,20 +20,24 @@ const authSlice = createSlice({
       state.error = action.payload.error;
       state.isLoading = action.payload.isLoading;
     },
+
     login: (state, action) => {
       state.isLoggedIn = action.payload.isLoggedIn;
       state.token = action.payload.token;
       state.userId = action.payload.userId;
     },
+
     signOut: (state) => {
       state.isLoggedIn = false;
       state.token = null;
       state.userId = null;
       state.user = null;
     },
+
     updateRegisteringEmail: (state, action) => {
       state.registeringEmail = action.payload.registeringEmail;
     },
+
     fetchUser: (state, action) => {
       state.user = action.payload.user;
     },
