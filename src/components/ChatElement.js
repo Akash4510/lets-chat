@@ -22,7 +22,7 @@ const ChatEelement = ({ id, name, img, msg, time, unread, online }) => {
   const { roomId } = useSelector((state) => state.app);
   const selectedChatId = roomId?.toString();
 
-  let isSelected = +selectedChatId === id;
+  let isSelected = selectedChatId === id;
 
   if (!selectedChatId) {
     isSelected = false;
