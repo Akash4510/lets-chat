@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Box,
@@ -166,6 +166,7 @@ const Footer = () => {
   const [openPicker, setOpenPicker] = useState(false);
   const [value, setValue] = useState('');
   const inputRef = useRef(null);
+  const emojiPickerRef = useRef(null);
 
   const handleEmojiClick = (emoji) => {
     const input = inputRef.current;
@@ -186,6 +187,23 @@ const Footer = () => {
       input.selectionStart = input.selectionEnd = selectionStart + 1;
     }
   };
+
+  // Close the emoji picker when the user clicks outside of it
+  const handleClickOutsideEmojiBox = (event) => {
+    if (
+      emojiPickerRef.current &&
+      !emojiPickerRef.current.contains(event.target)
+    ) {
+      setOpenPicker(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutsideEmojiBox);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutsideEmojiBox);
+    };
+  }, []);
 
   return (
     <Box
@@ -208,6 +226,7 @@ const Footer = () => {
         <Stack direction="row" alignItems={'center'} spacing={isMobile ? 1 : 3}>
           <Stack sx={{ width: '100%' }}>
             <Box
+              ref={emojiPickerRef}
               style={{
                 zIndex: 200,
                 position: 'fixed',
@@ -257,6 +276,9 @@ const Footer = () => {
                     to: currentConversation.userId,
                     type: containsUrl(value) ? 'Link' : 'Text',
                   });
+                  setValue('');
+                  inputRef.current.focus();
+                  setOpenPicker(false);
                 }}
               >
                 <PaperPlaneTilt color="#FFFFFF" />
