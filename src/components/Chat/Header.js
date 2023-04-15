@@ -144,15 +144,15 @@ const ChatHeader = () => {
           >
             <Box p={1}>
               <Stack spacing={1}>
-                {CONVERSATION_MENU.map((el) => (
-                  <MenuItem onClick={handleCloseConversationMenu}>
+                {CONVERSATION_MENU.map((item, idx) => (
+                  <MenuItem key={idx} onClick={handleCloseConversationMenu}>
                     <Stack
                       direction="row"
                       alignItems="center"
                       justifyContent="space-between"
                       sx={{ minWidth: 100 }}
                     >
-                      <span>{el.title}</span>
+                      <span>{item.title}</span>
                     </Stack>
                   </MenuItem>
                 ))}

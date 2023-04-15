@@ -63,7 +63,7 @@ const SideBar = () => {
           >
             {NAV_BUTTONS.map((item) => (
               <>
-                {item.index === 3 && <Divider sx={{ width: 45 }} />}
+                {item.index === 3 && <Divider key={200} sx={{ width: 45 }} />}
                 {item.index === selectedTab ? (
                   <Box
                     key={item.index}

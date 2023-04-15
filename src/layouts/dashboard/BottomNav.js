@@ -34,7 +34,7 @@ const BottomNav = () => {
         p={2}
       >
         {NAV_BUTTONS.slice(0, -1).map((item) => (
-          <>
+          <Stack key={item.index}>
             {item.index === selectedTab ? (
               <Box
                 key={item.index}
@@ -69,7 +69,7 @@ const BottomNav = () => {
                 {item.icon}
               </IconButton>
             )}
-          </>
+          </Stack>
         ))}
         <ProfileMenu />
       </Stack>
