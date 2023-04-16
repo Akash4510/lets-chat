@@ -52,7 +52,7 @@ const UserElement = ({ img, firstName, lastName, online, _id }) => {
             <Typography variant="subtitle2">{name}</Typography>
           </Stack>
         </Stack>
-        <Stack direction={'row'} spacing={2} alignItems="center">
+        <Stack direction="row" spacing={2} alignItems="center">
           <Button
             onClick={() => {
               socket.emit(
@@ -103,7 +103,7 @@ const FriendRequestElement = ({ img, firstName, lastName, online, id }) => {
             <Typography variant="subtitle2">{name}</Typography>
           </Stack>
         </Stack>
-        <Stack direction={'row'} spacing={2} alignItems="center">
+        <Stack direction="row" spacing={2} alignItems="center">
           <Button
             onClick={() => {
               socket.emit('accept_request', { requestId: id });
@@ -149,7 +149,7 @@ const FriendElement = ({ img, firstName, lastName, online, _id }) => {
             <Typography variant="subtitle2">{name}</Typography>
           </Stack>
         </Stack>
-        <Stack direction={'row'} spacing={2} alignItems="center">
+        <Stack direction="row" spacing={2} alignItems="center">
           <IconButton
             onClick={() => {
               socket.emit('start_conversation', { to: _id, from: thisUserId });

@@ -170,8 +170,6 @@ const Footer = () => {
 
   const handleEmojiClick = (emoji) => {
     const input = inputRef.current;
-    console.log('Inside handle emoji click');
-    console.log(input);
 
     if (input) {
       const selectionStart = input.selectionStart;
@@ -223,7 +221,7 @@ const Footer = () => {
           boxShadow: '0px 0px 2px rgba(0, 0, 0, 0.25)',
         }}
       >
-        <Stack direction="row" alignItems={'center'} spacing={isMobile ? 1 : 3}>
+        <Stack direction="row" alignItems="center" spacing={isMobile ? 1 : 1.5}>
           <Stack sx={{ width: '100%' }}>
             <Box
               ref={emojiPickerRef}
@@ -239,7 +237,6 @@ const Footer = () => {
                 theme={theme.palette.mode}
                 data={data}
                 onEmojiSelect={(emoji) => {
-                  console.log('Hereeeeeeee');
                   handleEmojiClick(emoji.native);
                 }}
               />
@@ -256,19 +253,19 @@ const Footer = () => {
           <Box
             sx={{
               height: 48,
-              width: 48,
+              width: isMobile ? 48 : 56,
               backgroundColor: theme.palette.primary.main,
               borderRadius: 1.5,
             }}
           >
             <Stack
               sx={{ height: '100%' }}
-              alignItems={'center'}
+              alignItems="center"
               justifyContent="center"
             >
               <IconButton
                 onClick={() => {
-                  console.log('Sending message');
+                  console.log('Sending message - ', value);
                   socket.emit('text_message', {
                     message: linkify(value),
                     conversationId: roomId,
