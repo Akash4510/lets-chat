@@ -104,7 +104,7 @@ const ResetPasswordForm = () => {
             },
           }}
         >
-          Submit
+          Update Password
         </Button>
       </Stack>
     </FormProvider>

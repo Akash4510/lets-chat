@@ -1,17 +1,11 @@
 import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  Link,
-  Stack,
-  Alert,
-  IconButton,
-  InputAdornment,
-  Button,
-} from '@mui/material';
+import { Link, Stack, Alert, IconButton, InputAdornment } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import FormProvider, { RHFTextField } from '../../components/hook-form';
 import { Eye, EyeSlash } from 'phosphor-react';
 import { LoginUser } from '../../redux/slices/auth';
@@ -19,6 +13,8 @@ import { LoginUser } from '../../redux/slices/auth';
 const LoginForm = () => {
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
+
+  const { isLoading } = useSelector((state) => state.auth);
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string()
@@ -28,8 +24,8 @@ const LoginForm = () => {
   });
 
   const defaultValues = {
-    email: 'akash@email.com',
-    password: 'qwerty1234',
+    email: '',
+    password: '',
   };
 
   const methods = useForm({
@@ -100,12 +96,13 @@ const LoginForm = () => {
         </Link>
       </Stack>
 
-      <Button
+      <LoadingButton
         fullWidth
         color="inherit"
         size="large"
         type="submit"
         variant="contained"
+        loading={isLoading}
         sx={{
           bgcolor: 'text.primary',
           color: (theme) =>
@@ -118,7 +115,7 @@ const LoginForm = () => {
         }}
       >
         Login
-      </Button>
+      </LoadingButton>
     </FormProvider>
   );
 };

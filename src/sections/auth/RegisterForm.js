@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  Stack,
-  Alert,
-  IconButton,
-  InputAdornment,
-  Button,
-} from '@mui/material';
+import { Stack, Alert, IconButton, InputAdornment } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import FormProvider, { RHFTextField } from '../../components/hook-form';
 import { Eye, EyeSlash } from 'phosphor-react';
 import { RegisterUser } from '../../redux/slices/auth';
 
 const RegisterForm = () => {
   const dispatch = useDispatch();
+  const { isLoading } = useSelector((state) => state.auth);
+
   const [showPassword, setShowPassword] = useState(false);
 
   const RegisterSchema = Yup.object().shape({
@@ -30,8 +27,8 @@ const RegisterForm = () => {
   const defaultValues = {
     firstName: '',
     lastName: '',
-    email: 'demo@user.com',
-    password: 'demo1234',
+    email: '',
+    password: '',
   };
 
   const methods = useForm({
@@ -93,12 +90,13 @@ const RegisterForm = () => {
           }}
         />
 
-        <Button
+        <LoadingButton
           fullWidth
           color="inherit"
           size="large"
           type="submit"
           variant="contained"
+          loading={isLoading}
           sx={{
             bgcolor: 'text.primary',
             color: (theme) =>
@@ -110,8 +108,8 @@ const RegisterForm = () => {
             },
           }}
         >
-          Register
-        </Button>
+          Create Account
+        </LoadingButton>
       </Stack>
     </FormProvider>
   );
