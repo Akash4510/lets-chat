@@ -24,7 +24,7 @@ const DashboardLayout = () => {
   const { conversations, currentConversation } = useSelector(
     (state) => state.conversation.directChat
   );
-  const userId = useSelector((state) => state.auth.userId);
+  const { userId } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(FetchUserProfile());
@@ -66,7 +66,7 @@ const DashboardLayout = () => {
         const message = data.message;
         console.log(currentConversation, data);
 
-        if (currentConversation.id === data.conversationId) {
+        if (currentConversation?.id === data.conversationId) {
           dispatch(
             AddDirectMessage({
               id: message._id,
@@ -83,7 +83,7 @@ const DashboardLayout = () => {
       socket.on('start_chat', (data) => {
         console.log(data);
         const existingConversation = conversations.find(
-          (item) => item.id === data._id
+          (item) => item?.id === data._id
         );
 
         if (existingConversation) {

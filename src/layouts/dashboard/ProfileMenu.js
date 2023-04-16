@@ -35,7 +35,7 @@ const ProfileMenu = () => {
         aria-controls={openMenu ? 'profile-positioned-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={openMenu ? 'true' : undefined}
-        alt={user.firstName}
+        alt={user?.firstName}
         src={faker.image.avatar()}
         onClick={(event) => {
           setAnchorEl(event.currentTarget);
