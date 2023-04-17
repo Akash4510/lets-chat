@@ -59,6 +59,7 @@ const slice = createSlice({
     // User
     setUser(state, action) {
       state.user = action.payload.user;
+      state.isLoggedIn = true;
     },
 
     // Users
@@ -227,7 +228,17 @@ export const FetchUserProfile = () => {
       })
       .then((response) => {
         console.log(response);
-        dispatch(slice.actions.setUser({ user: response.data.data }));
+        const user = response.data.data;
+        dispatch(
+          slice.actions.setUser({
+            user: {
+              _id: user._id,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+            },
+          })
+        );
       })
       .catch((err) => {
         console.log(err);
