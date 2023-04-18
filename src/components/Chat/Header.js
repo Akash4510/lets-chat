@@ -70,32 +70,41 @@ const ChatHeader = () => {
         direction="row"
         alignItems="center"
         justifyContent="space-between"
-        sx={{ width: '100%', height: '100%' }}
+        sx={{ width: '100%', height: '100%', cursor: 'pointer' }}
+        onClick={() => {
+          dispatch(ToggleSidebar());
+        }}
       >
-        <Stack
-          spacing={2}
-          direction="row"
-          onClick={() => {
-            dispatch(ToggleSidebar());
-          }}
-        >
+        <Stack spacing={2} direction="row" alignItems="center">
           <Box>
-            <StyledBadge
-              overlap="circular"
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-              }}
-              variant="dot"
-            >
-              <Avatar alt={faker.name.fullName()} src={faker.image.avatar()} />
-            </StyledBadge>
+            {currentConversation?.online ? (
+              <StyledBadge
+                overlap="circular"
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                }}
+                variant="dot"
+              >
+                <Avatar
+                  alt={currentConversation?.name}
+                  src={faker.image.avatar()}
+                />
+              </StyledBadge>
+            ) : (
+              <Avatar
+                alt={currentConversation?.name}
+                src={faker.image.avatar()}
+              />
+            )}
           </Box>
           <Stack spacing={0.2}>
-            <Typography variant="subtitle2">
+            <Typography variant="subtitle2" fontSize="1rem">
               {currentConversation?.name}
             </Typography>
-            <Typography variant="caption">Online</Typography>
+            {currentConversation?.online && (
+              <Typography variant="caption">Online</Typography>
+            )}
           </Stack>
         </Stack>
         <Stack direction="row" alignItems="center" spacing={isMobile ? 1 : 3}>
