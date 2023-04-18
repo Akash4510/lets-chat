@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Stack, Box } from '@mui/material';
 import {
@@ -23,16 +23,20 @@ const Messages = ({ showOptions, isMobile }) => {
   );
   const { roomId } = useSelector((state) => state.app);
 
-  useEffect(() => {
-    const currentConv = conversations.find((item) => item.id === roomId);
+  const [noOfMessages, setNoOfMessages] = useState(currentMessages.length);
 
-    socket.emit('get_messages', { conversationId: currentConv.id }, (data) => {
+  useEffect(() => {
+    const currentConv = conversations.find((item) => item?.id === roomId);
+
+    socket.emit('get_messages', { conversationId: currentConv?.id }, (data) => {
       console.log('List of messages', data);
       dispatch(FetchCurrentMessages({ messages: data }));
     });
 
+    setNoOfMessages(currentMessages.length);
+
     dispatch(SetCurrentConversation(currentConv));
-  }, []);
+  }, [roomId, noOfMessages]);
 
   return (
     <Box p={isMobile ? 1 : 3}>
