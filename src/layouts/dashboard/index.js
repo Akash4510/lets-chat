@@ -4,7 +4,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { Stack } from '@mui/material';
 import useResponsive from '../../hooks/useResponsive';
 import SideBar from './SideBar';
-import { connectSocket, socket } from '../../socket';
+import { socket, connectSocket } from '../../socket';
 import {
   SelectConversation,
   ShowSnackbar,
@@ -20,11 +20,10 @@ const DashboardLayout = () => {
   const dispatch = useDispatch();
   const isDesktop = useResponsive('up', 'md');
 
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { isLoggedIn, userId } = useSelector((state) => state.auth);
   const { conversations, currentConversation } = useSelector(
     (state) => state.conversation.directChat
   );
-  const { userId } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(FetchUserProfile());
