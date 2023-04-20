@@ -29,7 +29,6 @@ const Messages = ({ showOptions, isMobile }) => {
     const currentConv = conversations.find((item) => item?.id === roomId);
 
     socket.emit('get_messages', { conversationId: currentConv?.id }, (data) => {
-      console.log('List of messages', data);
       dispatch(FetchCurrentMessages({ messages: data }));
     });
 

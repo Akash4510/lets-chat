@@ -265,6 +265,10 @@ const Footer = () => {
             >
               <IconButton
                 onClick={() => {
+                  if (value.trim() === '') {
+                    return;
+                  }
+
                   console.log('Sending message - ', value);
                   socket.emit('text_message', {
                     message: linkify(value),
