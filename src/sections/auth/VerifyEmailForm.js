@@ -9,7 +9,7 @@ import { VerifyEmail } from '../../redux/slices/auth';
 
 const VerifyEmailForm = () => {
   const dispatch = useDispatch();
-  const { email } = useSelector((state) => state.auth);
+  const { registeringEmail } = useSelector((state) => state.auth);
 
   const VerifyEmailSchema = Yup.object().shape({
     code1: Yup.string().required('Code is required'),
@@ -47,7 +47,7 @@ const VerifyEmailForm = () => {
       console.log(data);
       dispatch(
         VerifyEmail({
-          email,
+          email: registeringEmail,
           otp: `${data.code1}${data.code2}${data.code3}${data.code4}${data.code5}${data.code6}`,
         })
       );

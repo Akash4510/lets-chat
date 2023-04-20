@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from '../../utils/axios';
-import { ShowSnackbar } from './app';
+import { ShowSnackbar, SelectConversation } from './app';
 
 const initialState = {
   isLoggedIn: null,
@@ -123,6 +123,8 @@ export const VerifyEmail = (formValues) => {
           })
         );
 
+        dispatch(SelectConversation({ roomId: null }));
+
         dispatch(authSlice.actions.fetchUser({ user: response.data.user }));
 
         window.localStorage.setItem('userId', response.data.userId);
@@ -176,6 +178,8 @@ export const LoginUser = (formValues) => {
             userId: response.data.userId,
           })
         );
+
+        dispatch(SelectConversation({ roomId: null }));
 
         dispatch(authSlice.actions.fetchUser({ user: response.data.user }));
 
