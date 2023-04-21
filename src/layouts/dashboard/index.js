@@ -63,7 +63,9 @@ const DashboardLayout = () => {
 
       socket.on('new_message', (data) => {
         const message = data.message;
-        console.log(currentConversation, data);
+
+        console.log('Current Conversation: ', currentConversation);
+        console.log(`${message.from} sent a message to ${message.to}`);
 
         if (currentConversation?.id === data.conversationId) {
           dispatch(

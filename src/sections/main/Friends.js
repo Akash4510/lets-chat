@@ -15,11 +15,13 @@ import {
 const UsersList = () => {
   const dispatch = useDispatch();
 
+  const { users } = useSelector((state) => state.app);
+  const [noOfUsers, setNoOfUsers] = useState(users.length);
+
   useEffect(() => {
     dispatch(FetchUsers());
-  }, []);
-
-  const { users } = useSelector((state) => state.app);
+    setNoOfUsers(users.length);
+  }, [noOfUsers]);
 
   return (
     <Stack>
@@ -33,11 +35,13 @@ const UsersList = () => {
 const FriendsList = () => {
   const dispatch = useDispatch();
 
+  const { friends } = useSelector((state) => state.app);
+  const [noOfFriends, setNoOfFriends] = useState(friends.length);
+
   useEffect(() => {
     dispatch(FetchFriends());
-  }, []);
-
-  const { friends } = useSelector((state) => state.app);
+    setNoOfFriends(friends.length);
+  }, [noOfFriends]);
 
   return (
     <Stack>
@@ -51,11 +55,15 @@ const FriendsList = () => {
 const FriendRequestsList = () => {
   const dispatch = useDispatch();
 
+  const { friendRequests } = useSelector((state) => state.app);
+  const [noOfFriendRequests, setNoOfFriendRequests] = useState(
+    friendRequests.length
+  );
+
   useEffect(() => {
     dispatch(FetchFriendRequests());
-  }, []);
-
-  const { friendRequests } = useSelector((state) => state.app);
+    setNoOfFriendRequests(friendRequests.length);
+  }, [noOfFriendRequests]);
 
   return (
     <Stack>

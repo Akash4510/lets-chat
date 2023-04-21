@@ -56,10 +56,10 @@ const UserElement = ({ img, firstName, lastName, online, _id }) => {
           <Button
             onClick={() => {
               socket.emit(
-                'friend_request',
+                'send_friend_request',
                 { to: _id, from: thisUserId },
                 () => {
-                  alert('request sent');
+                  alert('Friend request sent');
                 }
               );
             }}
@@ -106,7 +106,7 @@ const FriendRequestElement = ({ img, firstName, lastName, online, id }) => {
         <Stack direction="row" spacing={2} alignItems="center">
           <Button
             onClick={() => {
-              socket.emit('accept_request', { requestId: id });
+              socket.emit('accept_friend_request', { requestId: id });
             }}
           >
             Accept Request
