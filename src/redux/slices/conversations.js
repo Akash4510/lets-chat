@@ -22,14 +22,27 @@ const conversationsSlice = createSlice({
           (participant) => participant._id.toString() !== userId
         );
 
+        const lastMessage =
+          item.messages.length > 0
+            ? item.messages[item.messages.length - 1]
+            : null;
+
+        const dateString = lastMessage ? lastMessage.created_at : new Date();
+        const date = new Date(dateString);
+
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+
+        const formattedTime = `${hours}:${minutes}`;
+
         return {
           id: item._id,
           userId: user._id,
           name: `${user.firstName} ${user.lastName}`,
           online: user.status === 'online',
           img: faker.image.avatar(),
-          msg: faker.music.songName(),
-          time: '10:35',
+          lastMessage: lastMessage ? lastMessage.text || '' : '',
+          time: formattedTime,
           unread: 3,
           pinned: false,
         };
@@ -40,22 +53,34 @@ const conversationsSlice = createSlice({
 
     updateDirectConversation: (state, action) => {
       const thisConversation = action.payload.conversation;
+      const user = thisConversation.participants.find(
+        (el) => el._id.toString() !== userId
+      );
+
+      const lastMessage =
+        thisConversation.messages.length > 0
+          ? thisConversation.messages[thisConversation.messages.length - 1]
+          : null;
+
+      const dateString = lastMessage ? lastMessage.created_at : new Date();
+      const date = new Date(dateString);
+
+      const hours = date.getHours().toString().padStart(2, '0');
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+
+      const formattedTime = `${hours}:${minutes}`;
 
       state.directChat.conversations = state.directChat.conversations.map(
         (item) => {
           if (item.id === thisConversation._id) {
-            const user = thisConversation.participants.find(
-              (el) => el._id.toString() !== userId
-            );
-
             return {
               id: thisConversation._id,
               userId: user._id,
               name: `${user.firstName} ${user.lastName}`,
               online: user.status === 'online',
               img: faker.image.avatar(),
-              msg: faker.music.songName(),
-              time: '10:35',
+              lastMessage: lastMessage ? lastMessage.text || '' : '',
+              time: formattedTime,
               unread: 3,
               pinned: false,
             };
@@ -72,14 +97,27 @@ const conversationsSlice = createSlice({
         (el) => el._id.toString() !== userId
       );
 
+      const lastMessage =
+        thisConversation.messages.length > 0
+          ? thisConversation.messages[thisConversation.messages.length - 1]
+          : null;
+
+      const dateString = lastMessage ? lastMessage.created_at : new Date();
+      const date = new Date(dateString);
+
+      const hours = date.getHours().toString().padStart(2, '0');
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+
+      const formattedTime = `${hours}:${minutes}`;
+
       const newConversation = {
         id: thisConversation._id,
         userId: user._id,
         name: `${user.firstName} ${user.lastName}`,
         online: user.status === 'online',
         img: faker.image.avatar(),
-        msg: faker.music.songName(),
-        time: '10:35',
+        lastMessage: lastMessage ? lastMessage.text || '' : '',
+        time: formattedTime,
         unread: 3,
         pinned: false,
       };
