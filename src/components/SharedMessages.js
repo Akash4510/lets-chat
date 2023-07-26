@@ -37,7 +37,7 @@ const SharedMessages = () => {
             backgroundColor:
               theme.palette.mode === 'light'
                 ? '#F1F5FF'
-                : theme.palette.background.default,
+                : theme.palette.background.paper,
           }}
         >
           <Stack
@@ -59,7 +59,7 @@ const SharedMessages = () => {
             backgroundColor:
               theme.palette.mode === 'light'
                 ? '#FFFFFF'
-                : theme.palette.background.paper,
+                : theme.palette.background.default,
           }}
           value={selectedTab}
           onChange={handleTabChange}

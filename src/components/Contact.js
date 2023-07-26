@@ -107,7 +107,7 @@ const Contact = () => {
             backgroundColor:
               theme.palette.mode === 'light'
                 ? '#F1F5FF'
-                : theme.palette.background.default,
+                : theme.palette.background.paper,
           }}
         >
           <Stack
@@ -136,7 +136,7 @@ const Contact = () => {
             backgroundColor:
               theme.palette.mode === 'light'
                 ? '#FFFFFF'
-                : theme.palette.background.paper,
+                : theme.palette.background.default,
           }}
           p={3}
           spacing={4}
