@@ -40,7 +40,7 @@ const Chats = () => {
   const userId = useSelector((state) => state.auth.userId);
 
   useEffect(() => {
-    socket.emit('get_direct_conversatoins', { userId }, (data) => {
+    socket.emit('get_direct_conversations', { userId }, (data) => {
       console.log('Conversation data', data);
 
       dispatch(FetchDirectConversations({ conversations: data }));
