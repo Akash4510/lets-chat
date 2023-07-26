@@ -84,7 +84,10 @@ const conversationsSlice = createSlice({
         pinned: false,
       };
 
-      state.directChat.conversations.push(newConversation);
+      state.directChat.conversations = [
+        ...state.directChat.conversations,
+        newConversation,
+      ];
     },
 
     setCurrentConversation(state, action) {
@@ -106,7 +109,11 @@ const conversationsSlice = createSlice({
     },
 
     addDirectMessage(state, action) {
-      state.directChat.currentMessages.push(action.payload.message);
+      const newMessage = action.payload.message;
+      state.directChat.currentMessages = [
+        ...state.directChat.currentMessages,
+        newMessage,
+      ];
     },
   },
 });

@@ -104,7 +104,7 @@ const DashboardLayout = () => {
       socket?.off('new_message');
       socket?.off('start_chat');
     };
-  }, [isLoggedIn, socket]);
+  }, [isLoggedIn, socket, currentConversation, conversations, dispatch]);
 
   if (!isLoggedIn) {
     return <Navigate to="/auth/login" />;

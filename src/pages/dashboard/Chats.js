@@ -45,7 +45,7 @@ const Chats = () => {
 
       dispatch(FetchDirectConversations({ conversations: data }));
     });
-  }, []);
+  }, [userId, dispatch]);
 
   return (
     <Box
@@ -109,14 +109,16 @@ const Chats = () => {
           className="no-scrollbar"
           sx={{ flexGrow: 1, overflow: 'scroll', height: '100%' }}
         >
-          {/* <Stack spacing={2}>
+          <Stack spacing={2}>
             <Typography variant="subtitle2" sx={{ color: '#676767' }}>
               Pinned
             </Typography>
-            {ChatList.filter((item) => item.pinned).map((item) => (
-              <ChatEelement {...item} key={item.id} />
-            ))}
-          </Stack> */}
+            {conversations
+              .filter((item) => item.pinned)
+              .map((item) => (
+                <ChatEelement {...item} key={item.id} />
+              ))}
+          </Stack>
 
           <Stack spacing={2}>
             <Typography

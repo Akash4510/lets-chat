@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Stack, Box } from '@mui/material';
 import {
@@ -21,21 +21,28 @@ const Messages = ({ showOptions, isMobile }) => {
   const { conversations, currentMessages } = useSelector(
     (state) => state.conversation.directChat
   );
+  console.log(currentMessages);
   const { roomId } = useSelector((state) => state.app);
-
-  const [noOfMessages, setNoOfMessages] = useState(currentMessages.length);
+  console.log(roomId);
 
   useEffect(() => {
+    // Get the current conversation for the selected roomId
     const currentConv = conversations.find((item) => item?.id === roomId);
 
-    socket.emit('get_messages', { conversationId: currentConv?.id }, (data) => {
-      dispatch(FetchCurrentMessages({ messages: data }));
-    });
-
-    setNoOfMessages(currentMessages.length);
-
+    // Update the current conversation in the Redux store
     dispatch(SetCurrentConversation(currentConv));
-  }, [roomId, noOfMessages]);
+
+    // Fetch the messages only when the conversation changes
+    if (currentConv) {
+      socket.emit(
+        'get_messages',
+        { conversationId: currentConv?.id },
+        (data) => {
+          dispatch(FetchCurrentMessages({ messages: data }));
+        }
+      );
+    }
+  }, [roomId, conversations, dispatch]);
 
   return (
     <Box p={isMobile ? 1 : 3}>
