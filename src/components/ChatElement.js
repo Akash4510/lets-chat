@@ -15,7 +15,7 @@ const StyledChatBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-const ChatEelement = ({ id, name, img, msg, time, unread, online }) => {
+const ChatEelement = ({ id, name, img, lastMessage, time, unread, online }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
 
@@ -73,7 +73,7 @@ const ChatEelement = ({ id, name, img, msg, time, unread, online }) => {
                 overflow: 'hidden',
               }}
             >
-              {truncateText(msg, 20)}
+              {truncateText(lastMessage, 20)}
             </Typography>
           </Stack>
         </Stack>
