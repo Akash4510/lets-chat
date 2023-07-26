@@ -82,6 +82,19 @@ const ChatInput = ({
     }
   };
 
+  const handleClickOutsideActions = (event) => {
+    if (openActions && !event.target.closest('.actions-container')) {
+      setOpenActions(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutsideActions);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutsideActions);
+    };
+  }, [openActions]);
+
   return (
     <StyledInput
       inputRef={inputRef}
@@ -102,6 +115,7 @@ const ChatInput = ({
                 position: 'relative',
                 display: openActions ? 'inline-block' : 'none',
               }}
+              className="actions-container"
             >
               {ACTIONS.map((el, idx) => (
                 <Tooltip key={idx} placement="right" title={el.title}>
