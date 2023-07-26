@@ -71,8 +71,16 @@ const ChatInput = ({
   setValue,
   value,
   inputRef,
+  sendMessage,
 }) => {
   const [openActions, setOpenActions] = useState(false);
+
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 13 && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
 
   return (
     <StyledInput
@@ -81,6 +89,7 @@ const ChatInput = ({
       onChange={(e) => {
         setValue(e.target.value);
       }}
+      onKeyDown={handleKeyDown}
       fullWidth
       placeholder="Write a message..."
       variant="filled"
@@ -196,6 +205,24 @@ const Footer = () => {
     }
   };
 
+  const sendMessage = () => {
+    if (value.trim() === '') {
+      return;
+    }
+
+    console.log('Sending message - ', value);
+    socket.emit('text_message', {
+      message: linkify(value),
+      conversationId: roomId,
+      from: userId,
+      to: currentConversation.userId,
+      type: containsUrl(value) ? 'Link' : 'Text',
+    });
+    setValue('');
+    inputRef.current.focus();
+    setOpenPicker(false);
+  };
+
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutsideEmojiBox);
     return () => {
@@ -248,6 +275,7 @@ const Footer = () => {
               setValue={setValue}
               openPicker={openPicker}
               setOpenPicker={setOpenPicker}
+              sendMessage={sendMessage}
             />
           </Stack>
           <Box
@@ -263,25 +291,7 @@ const Footer = () => {
               alignItems="center"
               justifyContent="center"
             >
-              <IconButton
-                onClick={() => {
-                  if (value.trim() === '') {
-                    return;
-                  }
-
-                  console.log('Sending message - ', value);
-                  socket.emit('text_message', {
-                    message: linkify(value),
-                    conversationId: roomId,
-                    from: userId,
-                    to: currentConversation.userId,
-                    type: containsUrl(value) ? 'Link' : 'Text',
-                  });
-                  setValue('');
-                  inputRef.current.focus();
-                  setOpenPicker(false);
-                }}
-              >
+              <IconButton onClick={sendMessage}>
                 <PaperPlaneTilt color="#FFFFFF" />
               </IconButton>
             </Stack>
