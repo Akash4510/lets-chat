@@ -146,9 +146,7 @@ export const VerifyEmail = (formValues) => {
 
         dispatch(ShowSnackbar({ severity: 'error', message: error.message }));
 
-        dispatch(
-          authSlice.actions.updateIsLoading({ isLoading: false, error: true })
-        );
+        dispatch(authSlice.actions.updateIsLoading({ isLoading: false }));
       });
   };
 };
@@ -208,6 +206,14 @@ export const LoginUser = (formValues) => {
 
         dispatch(
           authSlice.actions.updateIsLoading({ isLoading: false, error: true })
+        );
+      })
+      .finally(() => {
+        dispatch(
+          authSlice.actions.updateRegisteringEmail({ registeringEmail: null })
+        );
+        dispatch(
+          authSlice.actions.updateIsLoading({ isLoading: false, error: false })
         );
       });
   };
