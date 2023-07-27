@@ -63,14 +63,14 @@ const DashboardLayout = () => {
 
       socket.on('new_message', (data) => {
         const message = data.message;
-        console.log('data', data);
-        console.log('message', message);
         const conversationId = data.conversationId;
 
-        console.log('Current Conversation: ', currentConversation);
-        console.log(`${message.from} sent a message to ${message.to}`);
+        // Update the receiver's conversation state
+        const receiverConversationIndex = conversations.findIndex(
+          (item) => item?.id === conversationId && item?.userId !== userId
+        );
 
-        if (currentConversation?.id === conversationId) {
+        if (receiverConversationIndex !== -1) {
           dispatch(
             AddDirectMessage({
               id: message._id,

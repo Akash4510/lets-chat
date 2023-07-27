@@ -48,7 +48,7 @@ const conversationsSlice = createSlice({
           img: faker.image.avatar(),
           lastMessage: lastMessage ? lastMessage.text || '' : '',
           time: formattedTime,
-          unread: 3,
+          unread: 0,
           pinned: false,
         };
       });
@@ -70,25 +70,35 @@ const conversationsSlice = createSlice({
       const dateString = lastMessage ? lastMessage.created_at : new Date();
       const formattedTime = formatTime(dateString);
 
-      state.directChat.conversations = state.directChat.conversations.map(
-        (item) => {
-          if (item.id === thisConversation._id) {
-            return {
-              id: thisConversation._id,
-              userId: user._id,
-              name: `${user.firstName} ${user.lastName}`,
-              online: user.status === 'online',
-              img: faker.image.avatar(),
-              lastMessage: lastMessage ? lastMessage.text || '' : '',
-              time: formattedTime,
-              unread: 3,
-              pinned: false,
-            };
-          }
-
-          return item;
-        }
+      // Check if the conversation already exists in the state
+      const conversationIndex = state.directChat.conversations.findIndex(
+        (item) => item.id === thisConversation._id
       );
+
+      if (conversationIndex !== -1) {
+        // Conversation already exists, update its properties
+        state.directChat.conversations[conversationIndex] = {
+          ...state.directChat.conversations[conversationIndex],
+          lastMessage: lastMessage ? lastMessage.text || '' : '',
+          time: formattedTime,
+          unread: state.directChat.conversations[conversationIndex].unread, // Preserve the unread count
+        };
+      } else {
+        // Conversation doesn't exist, add it to the state with unread count 0
+        const newConversation = {
+          id: thisConversation._id,
+          userId: user._id,
+          name: `${user.firstName} ${user.lastName}`,
+          online: user.status === 'online',
+          img: faker.image.avatar(),
+          lastMessage: lastMessage ? lastMessage.text || '' : '',
+          time: formattedTime,
+          unread: 0, // Initialize the unread count to 0
+          pinned: false,
+        };
+
+        state.directChat.conversations.push(newConversation);
+      }
     },
 
     addDirectConversation: (state, action) => {
@@ -113,7 +123,7 @@ const conversationsSlice = createSlice({
         img: faker.image.avatar(),
         lastMessage: lastMessage ? lastMessage.text || '' : '',
         time: formattedTime,
-        unread: 3,
+        unread: 0,
         pinned: false,
       };
 
@@ -125,6 +135,14 @@ const conversationsSlice = createSlice({
 
     setCurrentConversation(state, action) {
       state.directChat.currentConversation = action.payload;
+
+      // Reset the unread count for the selected conversation to zero
+      const conversationIndex = state.directChat.conversations.findIndex(
+        (c) => c.id === action.payload.roomId
+      );
+      if (conversationIndex !== -1) {
+        state.directChat.conversations[conversationIndex].unread = 0;
+      }
     },
 
     fetchCurrentMessages(state, action) {
