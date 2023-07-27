@@ -147,11 +147,24 @@ const conversationsSlice = createSlice({
     },
 
     addDirectMessage(state, action) {
+      console.log(action.payload);
       const newMessage = action.payload.message;
+
+      console.log(newMessage);
+      console.log(newMessage.conversationId);
+
       state.directChat.currentMessages = [
         ...state.directChat.currentMessages,
         newMessage,
       ];
+
+      const conversationIndex = state.directChat.conversations.findIndex(
+        (c) => c.id === newMessage.conversationId
+      );
+      if (conversationIndex !== -1) {
+        state.directChat.conversations[conversationIndex].lastMessage =
+          newMessage.message;
+      }
     },
   },
 });

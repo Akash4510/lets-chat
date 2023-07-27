@@ -77,6 +77,7 @@ const DashboardLayout = () => {
               message: message.text,
               incoming: message.to === userId,
               outgoing: message.from === userId,
+              conversationId,
             })
           );
         }
