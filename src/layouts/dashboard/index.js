@@ -63,6 +63,8 @@ const DashboardLayout = () => {
 
       socket.on('new_message', (data) => {
         const message = data.message;
+        console.log('data', data);
+        console.log('message', message);
         const conversationId = data.conversationId;
 
         console.log('Current Conversation: ', currentConversation);
@@ -77,6 +79,7 @@ const DashboardLayout = () => {
               message: message.text,
               incoming: message.to === userId,
               outgoing: message.from === userId,
+              time: message.createdAt,
               conversationId,
             })
           );

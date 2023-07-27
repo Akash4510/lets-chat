@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Stack, Typography, Avatar, Badge } from '@mui/material';
 import { styled, alpha, useTheme } from '@mui/material/styles';
@@ -73,7 +73,7 @@ const ChatEelement = ({ id, name, img, lastMessage, time, unread, online }) => {
                 overflow: 'hidden',
               }}
             >
-              {lastMessage}
+              {truncateText(lastMessage, 20)}
             </Typography>
           </Stack>
         </Stack>

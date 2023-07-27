@@ -1,6 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { faker } from '@faker-js/faker';
 
+const formatTime = (dateString) => {
+  const date = new Date(dateString);
+
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+
+  const formattedTime = `${hours}:${minutes}`;
+  return formattedTime;
+};
+
 const userId = window.localStorage.getItem('userId');
 
 const initialState = {
@@ -28,12 +38,7 @@ const conversationsSlice = createSlice({
             : null;
 
         const dateString = lastMessage ? lastMessage.created_at : new Date();
-        const date = new Date(dateString);
-
-        const hours = date.getHours().toString().padStart(2, '0');
-        const minutes = date.getMinutes().toString().padStart(2, '0');
-
-        const formattedTime = `${hours}:${minutes}`;
+        const formattedTime = formatTime(dateString);
 
         return {
           id: item._id,
@@ -63,12 +68,7 @@ const conversationsSlice = createSlice({
           : null;
 
       const dateString = lastMessage ? lastMessage.created_at : new Date();
-      const date = new Date(dateString);
-
-      const hours = date.getHours().toString().padStart(2, '0');
-      const minutes = date.getMinutes().toString().padStart(2, '0');
-
-      const formattedTime = `${hours}:${minutes}`;
+      const formattedTime = formatTime(dateString);
 
       state.directChat.conversations = state.directChat.conversations.map(
         (item) => {
@@ -103,12 +103,7 @@ const conversationsSlice = createSlice({
           : null;
 
       const dateString = lastMessage ? lastMessage.created_at : new Date();
-      const date = new Date(dateString);
-
-      const hours = date.getHours().toString().padStart(2, '0');
-      const minutes = date.getMinutes().toString().padStart(2, '0');
-
-      const formattedTime = `${hours}:${minutes}`;
+      const formattedTime = formatTime(dateString);
 
       const newConversation = {
         id: thisConversation._id,
@@ -134,36 +129,52 @@ const conversationsSlice = createSlice({
 
     fetchCurrentMessages(state, action) {
       const messages = action.payload.messages;
-      const formattedMessages = messages.map((item) => ({
-        id: item._id,
-        type: 'msg',
-        subtype: item.type,
-        message: item.text,
-        incoming: item.to === userId,
-        outgoing: item.from === userId,
-      }));
+      const formattedMessages = messages.map((item) => {
+        const dateString = item.created_at;
+        const formattedTime = formatTime(dateString);
+
+        return {
+          id: item._id,
+          type: 'msg',
+          subtype: item.type,
+          message: item.text,
+          incoming: item.to === userId,
+          outgoing: item.from === userId,
+          time: formattedTime,
+        };
+      });
 
       state.directChat.currentMessages = formattedMessages;
     },
 
     addDirectMessage(state, action) {
-      console.log(action.payload);
       const newMessage = action.payload.message;
-
-      console.log(newMessage);
-      console.log(newMessage.conversationId);
-
       state.directChat.currentMessages = [
         ...state.directChat.currentMessages,
         newMessage,
       ];
 
-      const conversationIndex = state.directChat.conversations.findIndex(
+      // Update the lastMessage and time for the conversation of the sender
+      const conversationIndexSender = state.directChat.conversations.findIndex(
         (c) => c.id === newMessage.conversationId
       );
-      if (conversationIndex !== -1) {
-        state.directChat.conversations[conversationIndex].lastMessage =
+      if (conversationIndexSender !== -1) {
+        state.directChat.conversations[conversationIndexSender].lastMessage =
           newMessage.message;
+        state.directChat.conversations[conversationIndexSender].time =
+          formatTime(newMessage.time);
+      }
+
+      // Update the lastMessage and time for the conversation of the receiver
+      const conversationIndexReceiver =
+        state.directChat.conversations.findIndex(
+          (c) => c.id === newMessage.conversationId && c.userId !== userId
+        );
+      if (conversationIndexReceiver !== -1) {
+        state.directChat.conversations[conversationIndexReceiver].lastMessage =
+          newMessage.message;
+        state.directChat.conversations[conversationIndexReceiver].time =
+          formatTime(newMessage.time);
       }
     },
   },
