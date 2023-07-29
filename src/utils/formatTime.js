@@ -1,4 +1,10 @@
-import { format, getTime, formatDistanceToNow } from 'date-fns';
+import {
+  format,
+  getTime,
+  isToday,
+  isYesterday,
+  formatDistanceToNow,
+} from 'date-fns';
 
 export function fDate(date) {
   return format(new Date(date), 'dd MMMM yyyy');
@@ -20,4 +26,16 @@ export function fToNow(date) {
   return formatDistanceToNow(new Date(date), {
     addSuffix: true,
   });
+}
+
+export function fCustomDateTime(timestamp) {
+  const date = new Date(timestamp);
+
+  if (isToday(date)) {
+    return format(date, 'hh:mm A');
+  } else if (isYesterday(date)) {
+    return 'Yesterday';
+  } else {
+    return format(date, 'dd/MM/yy');
+  }
 }
