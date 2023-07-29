@@ -19,7 +19,7 @@ const ProfileMenu = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user, userId } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const openMenu = Boolean(anchorEl);
@@ -82,7 +82,7 @@ const ProfileMenu = () => {
 
                       case 'Logout':
                         dispatch(LogOutUser());
-                        socket.emit('end', { userId });
+                        socket.disconnect();
                         break;
 
                       default:
