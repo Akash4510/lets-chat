@@ -1,5 +1,3 @@
-// ----------------------------------------------------------------------
-
 export default function getFileData(file, index) {
   if (typeof file === 'string') {
     return {

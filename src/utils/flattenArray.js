@@ -1,5 +1,3 @@
-// ----------------------------------------------------------------------
-
 export default function flattenArray(list, key = 'children') {
   let children = [];
 

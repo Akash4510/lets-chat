@@ -1,7 +1,5 @@
 import { alpha } from '@mui/material/styles';
 
-// ----------------------------------------------------------------------
-
 function getDirection(value = 'bottom') {
   return {
     top: 'to top',
@@ -10,8 +8,6 @@ function getDirection(value = 'bottom') {
     left: 'to left',
   }[value];
 }
-
-// ----------------------------------------------------------------------
 
 export default function cssStyles(theme) {
   return {
@@ -27,6 +23,7 @@ export default function cssStyles(theme) {
         backgroundColor: alpha(color, opacity),
       };
     },
+
     bgGradient: (props) => {
       const direction = getDirection(props?.direction);
       const startColor = props?.startColor || `${alpha('#000000', 0)} 0%`;
@@ -36,6 +33,7 @@ export default function cssStyles(theme) {
         background: `linear-gradient(${direction}, ${startColor}, ${endColor});`,
       };
     },
+
     bgImage: (props) => {
       const url = props?.url || '/assets/bg_gradient.jpg';
       const direction = getDirection(props?.direction);

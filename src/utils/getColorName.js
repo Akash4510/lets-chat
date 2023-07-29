@@ -1,5 +1,3 @@
-// ----------------------------------------------------------------------
-
 export default function getColorName(hex) {
   let color;
 

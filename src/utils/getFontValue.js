@@ -1,9 +1,5 @@
-// @mui
 import { useTheme } from '@mui/material/styles';
-// hooks
 import useResponsive from '../hooks/useResponsive';
-
-// ----------------------------------------------------------------------
 
 export default function GetFontValue(variant) {
   const theme = useTheme();
@@ -36,8 +32,6 @@ export default function GetFontValue(variant) {
   return { fontSize, lineHeight, fontWeight, letterSpacing };
 }
 
-// ----------------------------------------------------------------------
-
 export function remToPx(value) {
   return Math.round(parseFloat(value) * 16);
 }
@@ -59,8 +53,6 @@ export function responsiveFontSizes({ sm, md, lg }) {
     },
   };
 }
-
-// ----------------------------------------------------------------------
 
 function useWidth() {
   const theme = useTheme();
