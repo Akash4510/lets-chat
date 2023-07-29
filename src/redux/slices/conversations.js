@@ -101,6 +101,19 @@ const conversationsSlice = createSlice({
       }
     },
 
+    updateConversationStatus: (state, action) => {
+      const userId = action.payload.userId;
+
+      // Update the status of the user in the conversations list
+      const conversationIndex = state.directChat.conversations.findIndex(
+        (c) => c.userId === userId
+      );
+      if (conversationIndex !== -1) {
+        state.directChat.conversations[conversationIndex].online =
+          action.payload.status === 'online';
+      }
+    },
+
     addDirectConversation: (state, action) => {
       const thisConversation = action.payload.conversation;
       const user = thisConversation.participants.find(
@@ -134,11 +147,12 @@ const conversationsSlice = createSlice({
     },
 
     setCurrentConversation(state, action) {
+      // Set the current conversation in the state
       state.directChat.currentConversation = action.payload;
 
       // Reset the unread count for the selected conversation to zero
       const conversationIndex = state.directChat.conversations.findIndex(
-        (c) => c.id === action.payload.roomId
+        (c) => c.id === action.payload.id
       );
       if (conversationIndex !== -1) {
         state.directChat.conversations[conversationIndex].unread = 0;
@@ -193,6 +207,13 @@ const conversationsSlice = createSlice({
           newMessage.message;
         state.directChat.conversations[conversationIndexReceiver].time =
           formatTime(newMessage.time);
+
+        // Increment the unread count if the conversation is not currently active
+        if (
+          state.directChat.currentConversation?.id !== newMessage.conversationId
+        ) {
+          state.directChat.conversations[conversationIndexReceiver].unread += 1;
+        }
       }
     },
   },
@@ -220,6 +241,14 @@ export const UpdateDirectConversations = ({ conversation }) => {
   return async (dispatch, getState) => {
     dispatch(
       conversationsSlice.actions.updateDirectConversation({ conversation })
+    );
+  };
+};
+
+export const UpdateConversationStatus = ({ userId, status }) => {
+  return async (dispatch, getState) => {
+    dispatch(
+      conversationsSlice.actions.updateConversationStatus({ userId, status })
     );
   };
 };

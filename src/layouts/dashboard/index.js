@@ -14,6 +14,7 @@ import {
   AddDirectMessage,
   AddDirectConversation,
   UpdateDirectConversations,
+  UpdateConversationStatus,
 } from '../../redux/slices/conversations';
 
 const DashboardLayout = () => {
@@ -43,6 +44,17 @@ const DashboardLayout = () => {
       if (!socket) {
         connectSocket(userId);
       }
+
+      // Socket.on event listeners
+      socket.on('user_connected', (data) => {
+        const userId = data.userId;
+        dispatch(UpdateConversationStatus({ userId, status: 'online' }));
+      });
+
+      socket.on('user_disconnected', (data) => {
+        const userId = data.userId;
+        dispatch(UpdateConversationStatus({ userId, status: 'offline' }));
+      });
 
       socket.on('friend_request_sent', (data) => {
         dispatch(ShowSnackbar({ severity: 'success', message: data.message }));
@@ -103,6 +115,7 @@ const DashboardLayout = () => {
     }
 
     return () => {
+      // Clean up other socket.on event listeners...
       socket?.off('friend_request_sent');
       socket?.off('new_friend_request');
       socket?.off('accept_friend_request');
