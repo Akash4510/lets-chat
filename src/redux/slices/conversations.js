@@ -1,15 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { faker } from '@faker-js/faker';
-
-const formatTime = (dateString) => {
-  const date = new Date(dateString);
-
-  const hours = date.getHours().toString().padStart(2, '0');
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-
-  const formattedTime = `${hours}:${minutes}`;
-  return formattedTime;
-};
+import { fCustomDateTime } from '../../utils/formatTime';
 
 const userId = window.localStorage.getItem('userId');
 
@@ -38,7 +29,7 @@ const conversationsSlice = createSlice({
             : null;
 
         const dateString = lastMessage ? lastMessage.created_at : new Date();
-        const formattedTime = formatTime(dateString);
+        const formattedTime = fCustomDateTime(dateString);
 
         return {
           id: item._id,
@@ -68,7 +59,7 @@ const conversationsSlice = createSlice({
           : null;
 
       const dateString = lastMessage ? lastMessage.created_at : new Date();
-      const formattedTime = formatTime(dateString);
+      const formattedTime = fCustomDateTime(dateString);
 
       // Check if the conversation already exists in the state
       const conversationIndex = state.directChat.conversations.findIndex(
@@ -126,7 +117,7 @@ const conversationsSlice = createSlice({
           : null;
 
       const dateString = lastMessage ? lastMessage.created_at : new Date();
-      const formattedTime = formatTime(dateString);
+      const formattedTime = fCustomDateTime(dateString);
 
       const newConversation = {
         id: thisConversation._id,
@@ -163,7 +154,7 @@ const conversationsSlice = createSlice({
       const messages = action.payload.messages;
       const formattedMessages = messages.map((item) => {
         const dateString = item.created_at;
-        const formattedTime = formatTime(dateString);
+        const formattedTime = fCustomDateTime(dateString);
 
         return {
           id: item._id,
@@ -194,7 +185,7 @@ const conversationsSlice = createSlice({
         state.directChat.conversations[conversationIndexSender].lastMessage =
           newMessage.message;
         state.directChat.conversations[conversationIndexSender].time =
-          formatTime(newMessage.time);
+          fCustomDateTime(newMessage.time);
       }
 
       // Update the lastMessage and time for the conversation of the receiver
@@ -206,7 +197,7 @@ const conversationsSlice = createSlice({
         state.directChat.conversations[conversationIndexReceiver].lastMessage =
           newMessage.message;
         state.directChat.conversations[conversationIndexReceiver].time =
-          formatTime(newMessage.time);
+          fCustomDateTime(newMessage.time);
 
         // Increment the unread count if the conversation is not currently active
         if (
