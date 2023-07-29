@@ -70,6 +70,7 @@ const ChatInput = ({ setOpenEmojiPicker }) => {
       fullWidth
       placeholder="Write a message..."
       variant="filled"
+      autoComplete="off"
       InputProps={{
         disableUnderline: true,
         startAdornment: (
