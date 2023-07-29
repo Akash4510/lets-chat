@@ -22,7 +22,7 @@ const DashboardLayout = () => {
   const isDesktop = useResponsive('up', 'md');
 
   const { isLoggedIn, userId } = useSelector((state) => state.auth);
-  const { conversations, currentConversation } = useSelector(
+  const { conversations } = useSelector(
     (state) => state.conversation.directChat
   );
 
@@ -122,7 +122,7 @@ const DashboardLayout = () => {
       socket?.off('new_message');
       socket?.off('start_chat');
     };
-  }, [isLoggedIn, socket, currentConversation, conversations, dispatch]);
+  }, [isLoggedIn, socket, dispatch]);
 
   if (!isLoggedIn) {
     return <Navigate to="/auth/login" />;
