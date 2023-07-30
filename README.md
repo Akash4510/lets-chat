@@ -1,6 +1,6 @@
 # LetsChat - Real-Time Chat Application
 
-![LetsChat Logo](https://github.com/Akash4510/lets-chat/blob/master/src/assets/Images/logo.png)
+![LetsChat Logo](https://drive.google.com/file/d/1nmabPauAFhQ7mVDXrYnvotEsAfhdrRHv/view?usp=drive_link)
 
 LetsChat is a modern and feature-rich real-time chat application that allows you to connect with your friends, chat one-on-one, and have fun conversations in both light and dark modes. With full authentication and secure features, LetsChat ensures your chats are private and protected.
 
