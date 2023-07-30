@@ -71,6 +71,11 @@ export function fCustomDateTime(timestamp) {
   }
 }
 
+export function formatOnlyTime(timestamp) {
+  const date = new Date(timestamp);
+  return formatTime(date);
+}
+
 // Helper function to check if two dates have the same day, month, and year
 function isSameDate(date1, date2) {
   return (

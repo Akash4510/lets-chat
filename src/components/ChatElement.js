@@ -4,6 +4,7 @@ import { Box, Stack, Typography, Avatar, Badge } from '@mui/material';
 import { styled, alpha, useTheme } from '@mui/material/styles';
 import StyledBadge from './StyledBadge';
 import { SelectConversation } from '../redux/slices/app';
+import { fCustomDateTime } from '../utils/formatTime';
 
 const truncateText = (string, n) => {
   return string?.length > n ? `${string?.slice(0, n)}...` : string;
@@ -83,7 +84,7 @@ const ChatEelement = ({ id, name, img, lastMessage, time, unread, online }) => {
             variant="caption"
             sx={{ fontSize: '0.75rem', fontWeight: 500 }}
           >
-            {time}
+            {fCustomDateTime(time)}
           </Typography>
           <Badge
             className="unread-count"
