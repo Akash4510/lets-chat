@@ -62,7 +62,7 @@ const SideBar = () => {
             spacing={3}
           >
             {NAV_BUTTONS.map((item) => (
-              <>
+              <div key={item.index}>
                 {item.index === 3 && <Divider key={200} sx={{ width: 45 }} />}
                 {item.index === selectedTab ? (
                   <Box
@@ -98,7 +98,7 @@ const SideBar = () => {
                     {item.icon}
                   </IconButton>
                 )}
-              </>
+              </div>
             ))}
           </Stack>
         </Stack>

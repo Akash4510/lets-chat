@@ -34,7 +34,7 @@ const conversationsSlice = createSlice({
           online: user.status === 'online',
           img: faker.image.avatar(),
           lastMessage: lastMessage ? lastMessage.text || '' : '',
-          time: lastMessage ? lastMessage.created_at : new Date(),
+          time: lastMessage ? lastMessage.createdAt : new Date(),
           unread: 0,
           pinned: false,
         };
@@ -64,7 +64,7 @@ const conversationsSlice = createSlice({
         state.directChat.conversations[conversationIndex] = {
           ...state.directChat.conversations[conversationIndex],
           lastMessage: lastMessage ? lastMessage.text || '' : '',
-          time: lastMessage ? lastMessage.created_at : new Date(),
+          time: lastMessage ? lastMessage.createdAt : new Date(),
           unread: state.directChat.conversations[conversationIndex].unread, // Preserve the unread count
         };
       } else {
@@ -76,7 +76,7 @@ const conversationsSlice = createSlice({
           online: user.status === 'online',
           img: faker.image.avatar(),
           lastMessage: lastMessage ? lastMessage.text || '' : '',
-          time: lastMessage ? lastMessage.created_at : new Date(),
+          time: lastMessage ? lastMessage.createdAt : new Date(),
           unread: 0, // Initialize the unread count to 0
           pinned: false,
         };
@@ -116,7 +116,7 @@ const conversationsSlice = createSlice({
         online: user.status === 'online',
         img: faker.image.avatar(),
         lastMessage: lastMessage ? lastMessage.text || '' : '',
-        time: lastMessage ? lastMessage.created_at : new Date(),
+        time: lastMessage ? lastMessage.createdAt : new Date(),
         unread: 0,
         pinned: false,
       };
@@ -150,7 +150,7 @@ const conversationsSlice = createSlice({
           message: item.text,
           incoming: item.to === userId,
           outgoing: item.from === userId,
-          time: item.created_at,
+          time: item.createdAt,
         };
       });
 
@@ -158,12 +158,15 @@ const conversationsSlice = createSlice({
     },
 
     addDirectMessage(state, action) {
-      console.log('Direct message: ', action.payload);
       const newMessage = action.payload.message;
+      console.log('newMessage: ', newMessage);
+
       state.directChat.currentMessages = [
         ...state.directChat.currentMessages,
         newMessage,
       ];
+
+      console.log(state.directChat.currentMessages.slice(-10));
 
       // Update the lastMessage and time for the conversation of the sender
       const conversationIndexSender = state.directChat.conversations.findIndex(

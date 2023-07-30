@@ -116,13 +116,15 @@ const DashboardLayout = () => {
 
     return () => {
       // Clean up other socket.on event listeners...
+      socket?.off('user_connected');
+      socket?.off('user_disconnected');
       socket?.off('friend_request_sent');
       socket?.off('new_friend_request');
       socket?.off('accept_friend_request');
       socket?.off('new_message');
       socket?.off('start_chat');
     };
-  }, [isLoggedIn, socket, dispatch]);
+  }, [isLoggedIn, socket, conversations, dispatch]);
 
   if (!isLoggedIn) {
     return <Navigate to="/auth/login" />;
