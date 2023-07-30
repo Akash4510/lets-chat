@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { faker } from '@faker-js/faker';
-import { fCustomDateTime } from '../../utils/formatTime';
 
 const userId = window.localStorage.getItem('userId');
 
@@ -28,9 +27,6 @@ const conversationsSlice = createSlice({
             ? item.messages[item.messages.length - 1]
             : null;
 
-        const dateString = lastMessage ? lastMessage.created_at : new Date();
-        const formattedTime = fCustomDateTime(dateString);
-
         return {
           id: item._id,
           userId: user._id,
@@ -38,7 +34,7 @@ const conversationsSlice = createSlice({
           online: user.status === 'online',
           img: faker.image.avatar(),
           lastMessage: lastMessage ? lastMessage.text || '' : '',
-          time: formattedTime,
+          time: lastMessage ? lastMessage.created_at : new Date(),
           unread: 0,
           pinned: false,
         };
@@ -58,9 +54,6 @@ const conversationsSlice = createSlice({
           ? thisConversation.messages[thisConversation.messages.length - 1]
           : null;
 
-      const dateString = lastMessage ? lastMessage.created_at : new Date();
-      const formattedTime = fCustomDateTime(dateString);
-
       // Check if the conversation already exists in the state
       const conversationIndex = state.directChat.conversations.findIndex(
         (item) => item.id === thisConversation._id
@@ -71,7 +64,7 @@ const conversationsSlice = createSlice({
         state.directChat.conversations[conversationIndex] = {
           ...state.directChat.conversations[conversationIndex],
           lastMessage: lastMessage ? lastMessage.text || '' : '',
-          time: formattedTime,
+          time: lastMessage ? lastMessage.created_at : new Date(),
           unread: state.directChat.conversations[conversationIndex].unread, // Preserve the unread count
         };
       } else {
@@ -83,7 +76,7 @@ const conversationsSlice = createSlice({
           online: user.status === 'online',
           img: faker.image.avatar(),
           lastMessage: lastMessage ? lastMessage.text || '' : '',
-          time: formattedTime,
+          time: lastMessage ? lastMessage.created_at : new Date(),
           unread: 0, // Initialize the unread count to 0
           pinned: false,
         };
@@ -116,9 +109,6 @@ const conversationsSlice = createSlice({
           ? thisConversation.messages[thisConversation.messages.length - 1]
           : null;
 
-      const dateString = lastMessage ? lastMessage.created_at : new Date();
-      const formattedTime = fCustomDateTime(dateString);
-
       const newConversation = {
         id: thisConversation._id,
         userId: user._id,
@@ -126,7 +116,7 @@ const conversationsSlice = createSlice({
         online: user.status === 'online',
         img: faker.image.avatar(),
         lastMessage: lastMessage ? lastMessage.text || '' : '',
-        time: formattedTime,
+        time: lastMessage ? lastMessage.created_at : new Date(),
         unread: 0,
         pinned: false,
       };
@@ -153,9 +143,6 @@ const conversationsSlice = createSlice({
     fetchCurrentMessages(state, action) {
       const messages = action.payload.messages;
       const formattedMessages = messages.map((item) => {
-        const dateString = item.created_at;
-        const formattedTime = fCustomDateTime(dateString);
-
         return {
           id: item._id,
           type: 'msg',
@@ -163,7 +150,7 @@ const conversationsSlice = createSlice({
           message: item.text,
           incoming: item.to === userId,
           outgoing: item.from === userId,
-          time: formattedTime,
+          time: item.created_at,
         };
       });
 
@@ -171,6 +158,7 @@ const conversationsSlice = createSlice({
     },
 
     addDirectMessage(state, action) {
+      console.log('Direct message: ', action.payload);
       const newMessage = action.payload.message;
       state.directChat.currentMessages = [
         ...state.directChat.currentMessages,
@@ -185,7 +173,7 @@ const conversationsSlice = createSlice({
         state.directChat.conversations[conversationIndexSender].lastMessage =
           newMessage.message;
         state.directChat.conversations[conversationIndexSender].time =
-          fCustomDateTime(newMessage.time);
+          newMessage.time;
       }
 
       // Update the lastMessage and time for the conversation of the receiver
@@ -197,7 +185,7 @@ const conversationsSlice = createSlice({
         state.directChat.conversations[conversationIndexReceiver].lastMessage =
           newMessage.message;
         state.directChat.conversations[conversationIndexReceiver].time =
-          fCustomDateTime(newMessage.time);
+          newMessage.time;
 
         // Increment the unread count if the conversation is not currently active
         if (

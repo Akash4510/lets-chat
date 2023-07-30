@@ -21,9 +21,7 @@ const Messages = ({ showOptions, isMobile }) => {
   const { conversations, currentMessages } = useSelector(
     (state) => state.conversation.directChat
   );
-  console.log(currentMessages);
   const { roomId } = useSelector((state) => state.app);
-  console.log(roomId);
 
   useEffect(() => {
     // Get the current conversation for the selected roomId
